@@ -40,4 +40,6 @@ public abstract class Event {
 		this.endTime = endTime;
 	}
 
+	public abstract void addEvent();
+
 }

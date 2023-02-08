@@ -42,4 +42,10 @@ public class Meeting extends Event{
 	}
     
 	
+
+	@Override
+	public void addEvent() {
+		//creare evento
+		
+	}
 }

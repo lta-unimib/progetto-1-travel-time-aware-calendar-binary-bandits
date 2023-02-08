@@ -6,8 +6,14 @@ public class TravelTime extends Event{
 	//private Means means;
 	private Location startLocation;
 	private Location endLocation;
+
 	
 	public void setMeans (Meeting m) {}		
 	public void getMeans () {}				
 	public void setDuration () {}
+
+	@Override
+	public void addEvent() {
+		
+	}
 }
