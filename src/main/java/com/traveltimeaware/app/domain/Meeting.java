@@ -14,6 +14,8 @@ public class Meeting extends Event{
     private String description;
     private Boolean repetition;
     private TravelTime travelTime;
+    private Location location;
+    
 	public String getTitle() {
 		return title;
 	}
