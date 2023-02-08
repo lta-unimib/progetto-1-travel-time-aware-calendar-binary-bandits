@@ -40,4 +40,21 @@ public class Meeting extends Event{
 	}
     
 	
+
+	@Override
+	public void addEvent() {
+		//creare evento
+		
+	}
+	public void setTravelTime(TravelTime travelTime) {
+		this.travelTime = travelTime;
+	}
+    
+	
+
+	@Override
+	public void addEvent() {
+		//creare evento
+		
+	}
 }
