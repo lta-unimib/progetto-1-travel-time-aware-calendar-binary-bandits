@@ -2,19 +2,18 @@ package com.traveltimeaware.app.domain;
 
 public class Meeting extends Event{
 	
-	public Meeting(String title, String description, Boolean repetion, TravelTime travelIme) {
+	public Meeting(String title, String description, Boolean repetition, TravelTime travelTime) {
 		super();
 		this.title = title;
 		this.description = description;
-		this.repetion = repetion;
-		this.travelIme = travelIme;
+		this.repetition = repetition;
+		this.travelTime = travelTime;
 	}
 
 	private String title;
     private String description;
-    private Boolean repetion;
-    private TravelTime travelIme;
-    
+    private Boolean repetition;
+    private TravelTime travelTime;
 	public String getTitle() {
 		return title;
 	}
@@ -27,10 +26,18 @@ public class Meeting extends Event{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Boolean getRepetion() {
-		return repetion;
+	public Boolean getRepetition() {
+		return repetition;
 	}
-	public void setRepetion(Boolean repetion) {
-		this.repetion = repetion;
+	public void setRepetition(Boolean repetition) {
+		this.repetition = repetition;
 	}
+	public TravelTime getTravelTime() {
+		return travelTime;
+	}
+	public void setTravelTime(TravelTime travelTime) {
+		this.travelTime = travelTime;
+	}
+    
+	
 }
