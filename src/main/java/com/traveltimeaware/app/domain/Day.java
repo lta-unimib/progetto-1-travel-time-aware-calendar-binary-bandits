@@ -1,10 +1,11 @@
 package com.traveltimeaware.app.domain;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Day {
+public class Day implements Comparable<Day>{
 	private final Set<Meeting> meetings;
 	private final Date day;
 
@@ -26,5 +27,35 @@ public class Day {
 	}
 	
 	public void removeMeeting() {}
+
+	@Override
+	public String toString() {
+		return "Day [day=" + day + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(day);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Day other = (Day) obj;
+		return Objects.equals(day, other.day);
+	}
+
+	@Override
+	public int compareTo(Day o) {
+		if(o == null)
+			throw new NullPointerException("Day is uncomparable, is null");
+		return this.day.compareTo(o.day);
+	}
+	
 	
 }
