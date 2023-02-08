@@ -8,27 +8,26 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Calendar {
 	// Thread safe HashSet
-	private final Set<Day> days;
+	private final Map<Date, Day> days;
 	private final Date today;
 	
 	public Calendar() throws ParseException {
-		ConcurrentHashMap<Day, Object> daysMap = new ConcurrentHashMap<>();
-		this.days = daysMap.keySet();
+		this.days = new ConcurrentHashMap<>();
 		
 		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		this.today = formatter.parse(formatter.format(new Date()));
 	}
 	
 	public void addDay(Day d) {
-		if(d != null) {
-			days.add(d);
-		}
+		if(d == null)
+			throw new NullPointerException("Day is null");
+		days.putIfAbsent(d.getDayDate(), d);
 	}
 	
-	public void removeDay(Day d) {
-		if(!days.remove(d)) {
-			//errore
-		}
+	public void removeDay(Date d) {
+		if(d == null)
+			throw new NullPointerException("Date is null");
+		days.remove(d);
 	}
 	
 	public void updateDay(Day d) {}
