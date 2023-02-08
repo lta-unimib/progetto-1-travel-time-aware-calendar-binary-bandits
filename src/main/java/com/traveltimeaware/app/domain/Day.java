@@ -22,6 +22,10 @@ public class Day implements Comparable<Day>{
 		this.meetings = eventsMap.keySet();
 	}
 	
+	public Date getDayDate() {
+		return this.day;
+	}
+	
 	public Meeting getMeeting() {
 		return null;
 	}
