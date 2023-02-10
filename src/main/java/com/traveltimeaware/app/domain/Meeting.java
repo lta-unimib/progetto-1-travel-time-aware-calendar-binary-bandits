@@ -1,6 +1,11 @@
 package com.traveltimeaware.app.domain;
 
-public class Meeting extends Event{
+public class Meeting extends Event implements Comparable<Meeting>{
+	private String title;
+    private String description;
+    private Boolean repetition;
+    private TravelTime travelTime;
+    private Location location;
 	
 	public Meeting(String title, String description, Boolean repetition, TravelTime travelTime) {
 		super();
@@ -9,12 +14,6 @@ public class Meeting extends Event{
 		this.repetition = repetition;
 		this.travelTime = travelTime;
 	}
-
-	private String title;
-    private String description;
-    private Boolean repetition;
-    private TravelTime travelTime;
-    private Location location;
     
 	public String getTitle() {
 		return title;
@@ -47,5 +46,11 @@ public class Meeting extends Event{
 	public void addEvent() {
 		//creare evento
 		
+	}
+
+	// if endate < startdate --> this < o
+	@Override
+	public int compareTo(Meeting o) {
+		return this.endDate.compareTo(o.startDate);
 	}
 }
