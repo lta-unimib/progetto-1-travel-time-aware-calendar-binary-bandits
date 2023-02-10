@@ -5,7 +5,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Day implements Comparable<Day>{
+public class Day implements Comparable<Day> {
+	
 	private final Set<Meeting> meetings;
 	private final Date day;
 
