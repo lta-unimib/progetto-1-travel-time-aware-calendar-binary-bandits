@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Calendar {
-	// Thread safe HashSet
+	
 	private final Map<Date, Day> days;
 	private final Date today;
 	
@@ -21,21 +21,41 @@ public class Calendar {
 	public void addDay(Day d) {
 		if(d == null)
 			throw new NullPointerException("Day is null");
-		days.putIfAbsent(d.getDayDate(), d);
+		
+		Day added = days.putIfAbsent(d.getDayDate(), d);
+		if(added == null)
+			throw new IllegalArgumentException("Key already exist");
 	}
 	
-	public void removeDay(Date d) {
+	public Day removeDay(Date d) {
 		if(d == null)
 			throw new NullPointerException("Date is null");
-		days.remove(d);
+		
+		Day removed = days.remove(d);
+		if(removed == null) 
+			throw new IllegalArgumentException("Key doesn't exist");
+		
+		return removed;
 	}
 	
-	public void updateDay(Day d) {}
+	public void updateDay(Day d) {
+		if(!days.containsKey(d.getDayDate()))
+			throw new IllegalArgumentException("Key doesn't exist");
+		
+		days.put(d.getDayDate(), d);
+	}
 	
-	// Two day are equals if they date are equals
 	public Day getDay(Date d) {
-		return null;
+		if(!days.containsKey(d))
+			throw new IllegalArgumentException("Key doesn't exist");
+		
+		return days.get(d);
 	}
 	
+	// return ordered List by keys
+	public Set<Day> getCalendar() {
+		Map<Date, Day> orderedDays = new TreeMap<>(days);
+		return new HashSet<Day>(orderedDays.values());
+	}
 	
 }
