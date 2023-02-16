@@ -6,18 +6,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import org.springframework.web.util.UriBuilder;
 
 public class BingMapsRequest {
-	private static final String KEY = "123";
-	private String request = "http://dev.virtualearth.net/REST/V1/";
+	private static final String KEY = "Ak3neTD8b8APq3gOBYmpT09W2LaGZS-fK1UFvyjhF2X7lUeeCYfytch0rX2I4tVo";
+	private String base = "http://dev.virtualearth.net/REST/V1";
 	private HttpURLConnection conn;
 
 	public static class Builder {
-		private final String path;
-		private final Map<String, String> params;
+		private final String path; // something like /path1/path2/path3
+		private Map<String, String> params;
 
 		public Builder(String path) {
 			this.params = new HashMap<>();
@@ -35,17 +39,17 @@ public class BingMapsRequest {
 	}
 
 	private BingMapsRequest(Builder builder) throws IOException {
-		request += builder.path;
-		URL url = new URL(request);
+		URL url = new URL();
 		conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
-		conn.setDoOutput(true);
 
 		builder.params.put("key", KEY);
-		DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-		out.writeBytes(ParameterStringBuilder.getParamsString(builder.params));
-		out.flush();
-		out.close();
+		base += "?";
+		for(Entry<String, String> entry : builder.params.entrySet()) {
+			base += entry.getKey() + " = " + entry.getValue() + "&";
+		}
+		
+		System.out.println(conn);
 	}
 
 	public String getResponse() throws IOException {
