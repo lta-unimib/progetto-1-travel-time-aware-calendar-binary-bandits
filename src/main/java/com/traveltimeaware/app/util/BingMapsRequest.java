@@ -1,18 +1,14 @@
 package com.traveltimeaware.app.util;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.springframework.web.util.UriBuilder;
 
 public class BingMapsRequest {
 	private static final String KEY = "Ak3neTD8b8APq3gOBYmpT09W2LaGZS-fK1UFvyjhF2X7lUeeCYfytch0rX2I4tVo";
