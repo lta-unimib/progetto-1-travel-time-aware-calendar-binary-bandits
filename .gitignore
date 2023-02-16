@@ -139,3 +139,6 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+### API ###
+calendar.json
