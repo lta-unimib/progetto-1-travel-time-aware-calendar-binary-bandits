@@ -43,24 +43,20 @@ public class BingMapsRequest {
 		builder.params.put("key", KEY);
 		base += builder.path; 
 		base += "?";
+		
 		for(Entry<String, String> entry : builder.params.entrySet()) {
 			base += entry.getKey() + "=" + entry.getValue() + "&";
 		}
-		if(base == null || base.length() == 0)											//per rimuovere l'ultimo carattere della stringa[&]
-		{
+		
+		if(base == null || base.length() == 0) {											//per rimuovere l'ultimo carattere della stringa[&]{
 			return;
-		}
-		else {
+		} else {
 			base = (base.substring(0, base.length() - 1));
 		}
 		
 		URL url = new URL(base);
-		
-		System.out.println(url);
 		conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
-		
-		System.out.println(conn);
 	}
 
 	public String getResponse() throws IOException {
