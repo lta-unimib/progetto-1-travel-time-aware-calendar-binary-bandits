@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+import com.traveltimeaware.app.util.CalendarInitializer;
+
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class TravelTimeAwareApplication {
 
