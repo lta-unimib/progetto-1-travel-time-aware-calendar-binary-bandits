@@ -19,7 +19,7 @@ public class TravelTimeAwareApplication {
 			CalendarInitializer.start();
 		} catch (IOException | GeneralSecurityException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 }
