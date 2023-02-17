@@ -31,6 +31,7 @@ public class TravelTimeAwareApplication {
 			System.out.println("Connessione non riuscita");
 		}*/
 		
+		
 		/*
 		try {
 			CalendarInitializer.start();
