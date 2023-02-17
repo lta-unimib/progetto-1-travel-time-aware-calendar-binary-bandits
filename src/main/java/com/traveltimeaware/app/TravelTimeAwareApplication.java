@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+import com.traveltimeaware.app.util.BingMapsRequest;
 import com.traveltimeaware.app.util.CalendarInitializer;
 
 import java.sql.*;
@@ -30,11 +31,12 @@ public class TravelTimeAwareApplication {
 			System.out.println("Connessione non riuscita");
 		}*/
 		
+		/*
 		try {
 			CalendarInitializer.start();
 		} catch (IOException | GeneralSecurityException e) {
 			e.printStackTrace();
-		} 
+		} */
 	}
 
 }
