@@ -141,4 +141,5 @@ gradle-app.setting
 *.hprof
 
 ### API ###
-calendar.json
+data/calendar.json
+application-local.properties
