@@ -22,6 +22,10 @@ public class TravelTimeAwareApplication {
 		String usernameDatabase = "username";
 		String passwordDatabase = "password";
 		
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'develop' of git@ssh_campus:lta-unimib/progetto-1-travel-time-aware-calendar-binary-bandits.git
 		try {
 			Connection connectionDatabase = DriverManager.getConnection(urlDatabase, usernameDatabase, passwordDatabase);
 			System.out.println("Connessione riuscita");
