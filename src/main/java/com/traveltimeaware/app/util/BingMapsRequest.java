@@ -12,14 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.glassfish.jaxb.core.api.impl.NameConverter.Standard;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+@Configuration
+@PropertySource("classpath:application-local.properties")
 public class BingMapsRequest {
 	
-	private static String KEY = "Ak3neTD8b8APq3gOBYmpT09W2LaGZS-fK1UFvyjhF2X7lUeeCYfytch0rX2I4tVo";
+	@Value("${bing.maps.token}")
+	private static String KEY;
 	
 	private String base;
 	private HttpURLConnection conn;
