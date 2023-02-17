@@ -29,15 +29,19 @@ public class TravelTimeAwareApplication {
 	@Value("${password}")
 	private static String passwordDatabase;
 
+	@Value("${port}")
+	private static String portDatabase;
+
 	public static void main(String[] args) {
 		SpringApplication.run(TravelTimeAwareApplication.class, args);
-		try {
-			Connection connectionDatabase = DriverManager.getConnection(urlDatabase, usernameDatabase, passwordDatabase);
+		/*try {
+			
+			Connection connectionDatabase = DriverManager.getConnection("jdbc:mysql://" + urlDatabase + ":" + portDatabase + "/" + usernameDatabase, usernameDatabase, passwordDatabase);
 			System.out.println("Connessione riuscita");
 			
 		} catch (SQLException e) {
 			System.out.println("Connessione non riuscita");
-		}
+		}*/
 		
 		
 		/*
