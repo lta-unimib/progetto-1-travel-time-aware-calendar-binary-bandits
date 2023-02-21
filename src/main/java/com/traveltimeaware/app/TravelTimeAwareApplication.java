@@ -51,6 +51,7 @@ public class TravelTimeAwareApplication {
 			e.printStackTrace();
 		} */
 		
+		/*
 		MapsURL url = new MapsURL("/Routes/Driving")
 				.param("wp.0", "redmond,wa")
 				.param("wp.1", "Issaquah,wa")
@@ -60,7 +61,7 @@ public class TravelTimeAwareApplication {
 			System.out.println(BingMapsRequest.send(url));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} */
 	}
 
 }
