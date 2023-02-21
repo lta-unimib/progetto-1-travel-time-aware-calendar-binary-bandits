@@ -1,7 +1,6 @@
 package com.traveltimeaware.app;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -10,8 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import com.traveltimeaware.app.util.BingMapsRequest;
-import com.traveltimeaware.app.util.CalendarInitializer;
+import com.traveltimeaware.app.util.*;
 
 import java.sql.*;
 
@@ -50,6 +48,18 @@ public class TravelTimeAwareApplication {
 		} catch (IOException | GeneralSecurityException e) {
 			e.printStackTrace();
 		} */
+		
+		MapsURL url = new MapsURL("/Routes/Driving")
+				.param("wp.0", "redmond,wa")
+				.param("wp.1", "Issaquah,wa")
+				.param("avoid", "minimizeTolls");
+		
+		try {
+			String response = new BingMapsRequest().send(url);
+			System.out.println(response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
