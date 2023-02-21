@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import com.traveltimeaware.app.util.*;
+import com.traveltimeaware.app.util.maps.BingMapsRequest;
+import com.traveltimeaware.app.util.maps.MapsURL;
 
 import java.sql.*;
 
@@ -55,8 +57,7 @@ public class TravelTimeAwareApplication {
 				.param("avoid", "minimizeTolls");
 		
 		try {
-			String response = new BingMapsRequest().send(url);
-			System.out.println(response);
+			System.out.println(BingMapsRequest.send(url));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

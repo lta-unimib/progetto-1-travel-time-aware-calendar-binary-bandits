@@ -1,4 +1,4 @@
-package com.traveltimeaware.app.util;
+package com.traveltimeaware.app.util.maps;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;

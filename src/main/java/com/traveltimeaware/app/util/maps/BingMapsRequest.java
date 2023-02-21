@@ -1,4 +1,4 @@
-package com.traveltimeaware.app.util;
+package com.traveltimeaware.app.util.maps;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,22 +7,19 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import com.traveltimeaware.app.util.PropertiesLoader;
 
-@Configuration
-@PropertySource("classpath:application-local.properties")
-public class BingMapsRequest {
+public abstract class BingMapsRequest {
 	
-	@Value("${bing.maps.token}")
-	private String KEY;
+	private static String KEY = null;
 	
-	public BingMapsRequest() {
-		
+	private static void init() throws IOException {
+		if(KEY == null)
+			KEY = PropertiesLoader.loadProperties("application-local.properties").getProperty("bing.maps.token");
 	}
 	
-	public String send(MapsURL request) throws IOException {
+	public static String send(MapsURL request) throws IOException {
+		init();
 		request = request.param("key", KEY);
 		
 		URL url = new URL(request.toString());
@@ -32,7 +29,7 @@ public class BingMapsRequest {
 		return getResponse(conn);
 	}
 
-	private String getResponse(HttpURLConnection conn) throws IOException {
+	private static String getResponse(HttpURLConnection conn) throws IOException {
 		Reader streamReader = null;
 		if (conn.getResponseCode() > 299) {
 			streamReader = new InputStreamReader(conn.getErrorStream());
