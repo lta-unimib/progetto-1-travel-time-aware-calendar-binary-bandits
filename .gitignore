@@ -142,4 +142,4 @@ gradle-app.setting
 
 ### API ###
 data/calendar.json
-application-local.properties
+application.properties
