@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.traveltimeaware.app.security.domain.User;
+import com.traveltimeaware.app.security.repo.UserRepository;
 
 public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired

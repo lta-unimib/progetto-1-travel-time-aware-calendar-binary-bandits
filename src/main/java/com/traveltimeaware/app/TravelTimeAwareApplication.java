@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 // user@email.com/pass
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, SecurityAutoConfiguration.class })
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 @Configuration
 public class TravelTimeAwareApplication {
 	

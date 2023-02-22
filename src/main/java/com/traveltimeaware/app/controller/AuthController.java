@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.traveltimeaware.app.security.UserRepository;
 import com.traveltimeaware.app.security.domain.User;
+import com.traveltimeaware.app.security.repo.UserRepository;
 
 @Controller
 public class AuthController {
