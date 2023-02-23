@@ -27,10 +27,10 @@ import org.springframework.core.io.ClassPathResource;
 public class CalendarInitializer {
 	private static final String APPLICATION_NAME = "Travel Time Aware";
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-	private static final String TOKENS_DIRECTORY_PATH = "tokens";
+	private static final String TOKENS_DIRECTORY_PATH = "data/tokens/";
 
 	private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-	private static final String CREDENTIALS_FILE_PATH = "calendar.json";
+	private static final String CREDENTIALS_FILE_PATH = "data/calendar.json";
 	
 	private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
 		InputStream in = new ClassPathResource(CREDENTIALS_FILE_PATH).getInputStream();
