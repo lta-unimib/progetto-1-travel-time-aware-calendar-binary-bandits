@@ -11,7 +11,7 @@ import com.traveltimeaware.app.util.CalendarInitializer;
 
 
 // user@email.com/pass
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class TravelTimeAwareApplication {
 
 	public static void main(String[] args) {
