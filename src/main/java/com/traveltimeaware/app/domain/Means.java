@@ -5,5 +5,4 @@ public enum Means {
     BIKE,
     FOOT,
     PUBLIC_TRANSPORT;
-
 }

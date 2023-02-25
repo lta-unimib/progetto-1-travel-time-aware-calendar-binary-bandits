@@ -15,7 +15,7 @@ public abstract class BingMapsRequest {
 	
 	private static void init() throws IOException {
 		if(KEY == null)
-			KEY = PropertiesLoader.loadProperties("application-local.properties").getProperty("bing.maps.token");
+			KEY = PropertiesLoader.loadProperties("application.properties").getProperty("bing.maps.token");
 	}
 	
 	public static String send(MapsURL request) throws IOException {

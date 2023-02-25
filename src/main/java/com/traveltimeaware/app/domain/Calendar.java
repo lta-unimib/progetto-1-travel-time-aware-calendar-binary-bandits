@@ -1,61 +1,60 @@
 package com.traveltimeaware.app.domain;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Calendar {
 	
-	private final Map<Date, Day> days;
-	private final Date today;
+	private final Set<Day> days;
 	
 	public Calendar() throws ParseException {
-		this.days = new ConcurrentHashMap<>();
-		
-		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		this.today = formatter.parse(formatter.format(new Date()));
+		this.days = ConcurrentHashMap.newKeySet();
 	}
-	
+
 	public void addDay(Day d) {
-		if(d == null)
-			throw new NullPointerException("Day is null");
-		
-		Day added = days.putIfAbsent(d.getDayDate(), d);
-		if(added == null)
-			throw new IllegalArgumentException("Key already exist");
+		if(validateInput(d) && days.add(d) != true)
+			throw new IllegalArgumentException("Element already exist");
 	}
 	
-	public Day removeDay(Date d) {
-		if(d == null)
-			throw new NullPointerException("Date is null");
-		
-		Day removed = days.remove(d);
-		if(removed == null) 
-			throw new IllegalArgumentException("Key doesn't exist");
-		
-		return removed;
+	public void removeDay(Date d) {
+		if(validateInput(new Day(d)) && days.remove(new Day(d)) != true) 
+			throw new IllegalArgumentException("Element doesn't exist");
 	}
 	
 	public void updateDay(Day d) {
-		if(!days.containsKey(d.getDayDate()))
-			throw new IllegalArgumentException("Key doesn't exist");
-		
-		days.put(d.getDayDate(), d);
+		removeDay(d.getDayDate());
+		addDay(d);
 	}
 	
-	public Day getDay(Date d) {
-		if(!days.containsKey(d))
-			throw new IllegalArgumentException("Key doesn't exist");
+	public Day getDay(Date d) {		
+		if(validateInput(new Day(d)) && !days.contains(new Day(d)))
+			throw new IllegalArgumentException("Element doesn't already exist");
 		
-		return days.get(d);
+		Day found = null;
+		for(Day day : days) {
+			if(day.equals(new Day(d))) {
+				found = day;
+				break;
+			}
+		}
+		
+		return found;
 	}
 	
-	// return ordered List by keys
+	private boolean validateInput(Day d) {
+		if(d == null)
+			throw new NullPointerException("Date is null");
+		
+		if(!days.contains(d))
+			throw new IllegalArgumentException("Element doesn't already exist");
+		
+		return true;
+	}
+	
+	// return ordered Set
 	public Set<Day> getCalendar() {
-		Map<Date, Day> orderedDays = new TreeMap<>(days);
-		return new HashSet<Day>(orderedDays.values());
+		return (new TreeSet<>(days));
 	}
 	
 }

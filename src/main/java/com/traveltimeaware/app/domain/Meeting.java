@@ -1,56 +1,103 @@
 package com.traveltimeaware.app.domain;
 
-public class Meeting extends Event implements Comparable<Meeting>{
+import java.time.LocalDateTime;
+
+public class Meeting extends Event {
+
+	private long id;
 	private String title;
-    private String description;
-    private Boolean repetition;
-    private TravelTime travelTime;
-    private Location location;
-	
-	public Meeting(String title, String description, Boolean repetition, TravelTime travelTime) {
-		super();
-		this.title = title;
-		this.description = description;
-		this.repetition = repetition;
-		this.travelTime = travelTime;
+	private String description;
+	private boolean repetition = false;
+	private TravelTime travel;
+	private Location location;
+
+	public static class Builder {
+		// Required
+		private String title;
+		private Location location;
+		private LocalDateTime start;
+		private LocalDateTime end;
+		private TravelTime travel;
+		
+		// Optional
+		private String description;
+		private boolean repetition;
+
+		public Builder(LocalDateTime start, LocalDateTime end, String title, Location location, TravelTime travel) {
+			this.title = title;
+			this.location = location;
+			this.travel = travel;
+			
+			this.start = start;
+			this.end = end;
+		}
+		
+		public Builder description(String description) {
+			this.description = description;
+			return this;
+		}
+		
+		public Builder repetition(boolean repetition) {
+			this.repetition = repetition;
+			return this;
+		}
+		
+		public Meeting build() {
+			return new Meeting(this);
+		}
 	}
-    
+
+	private Meeting(Builder builder) {
+		super(builder.start, builder.end);
+		
+		setDescription(builder.description);
+		setTitle(builder.title);
+		setRepetition(builder.repetition);
+		setLocation(builder.location);
+		setTravelTime(builder.travel);
+	}
+	
+	public long getId() {
+		return id;
+	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Boolean getRepetition() {
+
+	public boolean getRepetition() {
 		return repetition;
 	}
-	public void setRepetition(Boolean repetition) {
+
+	public void setRepetition(boolean repetition) {
 		this.repetition = repetition;
 	}
+
 	public TravelTime getTravelTime() {
-		return travelTime;
+		return travel;
 	}
+
 	public void setTravelTime(TravelTime travelTime) {
-		this.travelTime = travelTime;
-	}
-    
-	
-
-	@Override
-	public void addEvent() {
-		//creare evento
-		
+		this.travel = travelTime;
 	}
 
-	// if endate < startdate --> this < o
-	@Override
-	public int compareTo(Meeting o) {
-		return this.endDate.compareTo(o.startDate);
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }
