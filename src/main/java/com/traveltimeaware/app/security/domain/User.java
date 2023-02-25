@@ -18,6 +18,17 @@ public class User {
 
 	@Column(nullable = false)
 	private String surname;
+	
+	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+	private boolean enabled;
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
 	public String getEmail() {
 		return email;
