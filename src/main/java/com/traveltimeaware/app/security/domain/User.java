@@ -1,5 +1,7 @@
 package com.traveltimeaware.app.security.domain;
 
+import com.traveltimeaware.app.domain.Calendar;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -21,6 +23,9 @@ public class User {
 	
 	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
 	private boolean enabled;
+	
+	@OneToOne(mappedBy = "user")
+	private Calendar calendar;
 
 	public boolean isEnabled() {
 		return enabled;

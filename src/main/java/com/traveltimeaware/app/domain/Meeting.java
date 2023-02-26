@@ -1,20 +1,33 @@
 package com.traveltimeaware.app.domain;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "meetings")
 public class Meeting extends Event {
-
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
 	private String title;
-	private String description;
+	private String description = "";
 	private boolean repetition = false;
+	
+	@OneToOne(mappedBy = "meeting")
 	private TravelTime travel;
-	private Location location;
+	private String location;
+	
+	@ManyToOne
+    @JoinColumn(name = "day_id", nullable = false)
+	private Day day;
 
 	public static class Builder {
 		// Required
 		private String title;
-		private Location location;
+		private String location;
 		private LocalDateTime start;
 		private LocalDateTime end;
 		private TravelTime travel;
@@ -23,7 +36,7 @@ public class Meeting extends Event {
 		private String description;
 		private boolean repetition;
 
-		public Builder(LocalDateTime start, LocalDateTime end, String title, Location location, TravelTime travel) {
+		public Builder(LocalDateTime start, LocalDateTime end, String title, String location, TravelTime travel) {
 			this.title = title;
 			this.location = location;
 			this.travel = travel;
@@ -46,6 +59,10 @@ public class Meeting extends Event {
 			return new Meeting(this);
 		}
 	}
+	
+	protected Meeting(){
+		super(LocalDateTime.MIN, LocalDateTime.MAX);
+	}
 
 	private Meeting(Builder builder) {
 		super(builder.start, builder.end);
@@ -66,6 +83,8 @@ public class Meeting extends Event {
 	}
 
 	public void setTitle(String title) {
+		if(title == null || title.length() == 0)
+			throw new IllegalArgumentException("Title not valid");
 		this.title = title;
 	}
 
@@ -93,11 +112,37 @@ public class Meeting extends Event {
 		this.travel = travelTime;
 	}
 
-	public Location getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(String location) {
+		if(location == null)
+			throw new IllegalArgumentException("Location not valid");
 		this.location = location;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(description, id, location, repetition, title, travel);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Meeting other = (Meeting) obj;
+		return Objects.equals(description, other.description) && id == other.id
+				&& Objects.equals(location, other.location) && repetition == other.repetition
+				&& Objects.equals(title, other.title) && Objects.equals(travel, other.travel);
+	}
+	
+	
 }

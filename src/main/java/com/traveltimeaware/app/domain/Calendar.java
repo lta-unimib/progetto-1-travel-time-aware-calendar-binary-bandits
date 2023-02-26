@@ -4,12 +4,31 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.traveltimeaware.app.security.domain.User;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "calendars")
 public class Calendar {
 	
-	private final Set<Day> days;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_email", referencedColumnName = "email")
+    private User user;
+	
+	@OneToMany(mappedBy = "calendar")
+	private Set<Day> days;
+
+	public long getId() {
+		return id;
+	}
 	
 	public Calendar() throws ParseException {
-		this.days = ConcurrentHashMap.newKeySet();
+		setDays(new HashSet<>());
 	}
 
 	public void addDay(Day d) {
@@ -22,8 +41,13 @@ public class Calendar {
 			throw new IllegalArgumentException("Element doesn't exist");
 	}
 	
+	public void removeDay(Day d) {
+		if(validateInput(d) && days.remove(d) != true) 
+			throw new IllegalArgumentException("Element doesn't exist");
+	}
+	
 	public void updateDay(Day d) {
-		removeDay(d.getDayDate());
+		removeDay(d.getDay());
 		addDay(d);
 	}
 	
@@ -53,8 +77,13 @@ public class Calendar {
 	}
 	
 	// return ordered Set
-	public Set<Day> getCalendar() {
+	public Set<Day> getDays() {
 		return (new TreeSet<>(days));
+	}
+	
+	private void setDays(Set<Day> days) {
+		ConcurrentHashMap<Day, Object> daysMap = new ConcurrentHashMap<>();
+		this.days = daysMap.keySet(days);
 	}
 	
 }

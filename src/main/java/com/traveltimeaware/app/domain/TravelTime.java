@@ -2,13 +2,26 @@ package com.traveltimeaware.app.domain;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "travel_time")
 public class TravelTime extends Event {
 	
-	private Means means;
-	private Location startLocation;
-	private Location endLocation;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	
-	public TravelTime(LocalDateTime start, LocalDateTime end, Means means, Location startLocation, Location endLocation) {
+	@Enumerated(EnumType.ORDINAL)
+	private Means means;
+	private String startLocation;
+	private String endLocation;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "meeting_id", referencedColumnName = "id")
+	private Meeting meeting;
+	
+	public TravelTime(LocalDateTime start, LocalDateTime end, Means means, String startLocation, String endLocation) {
 		super(start, end);
 		
 		setMeans(means);
@@ -24,21 +37,21 @@ public class TravelTime extends Event {
 		this.means = means;
 	}
 	
-	public Location getStartLocation() {
+	public String getStartLocation() {
 		return startLocation;
 	}
 	
-	public void setStartLocation(Location startLocation) {
+	public void setStartLocation(String startLocation) {
 		if(startLocation == null)
 			throw new IllegalArgumentException("Location not valid");
 		this.startLocation = startLocation;
 	}
 	
-	public Location getEndLocation() {
+	public String getEndLocation() {
 		return endLocation;
 	}
 	
-	public void setEndLocation(Location endLocation) {
+	public void setEndLocation(String endLocation) {
 		if(endLocation == null)
 			throw new IllegalArgumentException("Location not valid");
 		this.endLocation = endLocation;

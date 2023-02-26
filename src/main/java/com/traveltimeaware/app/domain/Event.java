@@ -2,6 +2,7 @@ package com.traveltimeaware.app.domain;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public abstract class Event implements Comparable<Event> {
 	
@@ -44,4 +45,23 @@ public abstract class Event implements Comparable<Event> {
 			throw new NullPointerException("Day is uncomparable, is null");
 		return this.startEvent.compareTo(o.endEvent);
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(endEvent, startEvent);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Event other = (Event) obj;
+		return Objects.equals(endEvent, other.endEvent) && Objects.equals(startEvent, other.startEvent);
+	}
+	
+	
 }
