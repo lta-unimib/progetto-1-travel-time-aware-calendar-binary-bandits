@@ -7,7 +7,7 @@ import com.traveltimeaware.app.security.domain.User;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "days")
+@Table(name = "preference_events")
 public class PreferenceEvent extends Event {
 
 	@Id
@@ -18,7 +18,7 @@ public class PreferenceEvent extends Event {
 	private int minimalTime;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "email")
+    @JoinColumn(name = "user_email", referencedColumnName = "email")
     private User user;
 	
 	public PreferenceEvent(LocalDateTime start, LocalDateTime end, String name, int minimalTime) {

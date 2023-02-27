@@ -39,13 +39,13 @@ public class AuthController {
     }
     
     @PostMapping("/register")
-    public boolean processRegister(User user) {
+    public String processRegister(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
          
         userRepo.save(user);
          
-        return true;
+        return "redirect:/login";
     }
 }

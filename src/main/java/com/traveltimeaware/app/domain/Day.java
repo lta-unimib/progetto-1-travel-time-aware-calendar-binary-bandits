@@ -23,6 +23,10 @@ public class Day implements Comparable<Day> {
     @JoinColumn(name = "calendar_id", nullable = false)
 	private Calendar calendar;
 
+	public Day() {
+		this(new Date());
+	}
+	
 	public Day(Date day) {
 		if (day == null)
 			throw new NullPointerException("Date is null");

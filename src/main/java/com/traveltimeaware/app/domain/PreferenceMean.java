@@ -1,7 +1,6 @@
 package com.traveltimeaware.app.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.traveltimeaware.app.security.domain.User;
@@ -24,7 +23,7 @@ public class PreferenceMean {
 	private List<Mean> preferedMeans;
 
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "email")
+    @JoinColumn(name = "user_email", referencedColumnName = "email")
     private User user;
 	
 	public long getId() {
