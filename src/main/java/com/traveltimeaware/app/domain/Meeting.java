@@ -15,10 +15,10 @@ public class Meeting extends Event {
 	private String title;
 	private String description = "";
 	private boolean repetition = false;
+	private String location;
 	
 	@OneToOne(mappedBy = "meeting")
 	private TravelTime travel;
-	private String location;
 	
 	@ManyToOne
     @JoinColumn(name = "day_id", nullable = false)
@@ -39,7 +39,6 @@ public class Meeting extends Event {
 		public Builder(LocalDateTime start, LocalDateTime end, String title, String location, TravelTime travel) {
 			this.title = title;
 			this.location = location;
-			this.travel = travel;
 			
 			this.start = start;
 			this.end = end;
