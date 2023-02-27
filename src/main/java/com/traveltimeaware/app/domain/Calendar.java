@@ -1,61 +1,89 @@
 package com.traveltimeaware.app.domain;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.traveltimeaware.app.security.domain.User;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "calendars")
 public class Calendar {
 	
-	private final Map<Date, Day> days;
-	private final Date today;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_email", referencedColumnName = "email")
+    private User user;
+	
+	@OneToMany(mappedBy = "calendar")
+	private Set<Day> days;
+
+	public long getId() {
+		return id;
+	}
 	
 	public Calendar() throws ParseException {
-		this.days = new ConcurrentHashMap<>();
-		
-		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		this.today = formatter.parse(formatter.format(new Date()));
+		setDays(new HashSet<>());
 	}
-	
+
 	public void addDay(Day d) {
-		if(d == null)
-			throw new NullPointerException("Day is null");
-		
-		Day added = days.putIfAbsent(d.getDayDate(), d);
-		if(added == null)
-			throw new IllegalArgumentException("Key already exist");
+		if(validateInput(d) && days.add(d) != true)
+			throw new IllegalArgumentException("Element already exist");
 	}
 	
-	public Day removeDay(Date d) {
-		if(d == null)
-			throw new NullPointerException("Date is null");
-		
-		Day removed = days.remove(d);
-		if(removed == null) 
-			throw new IllegalArgumentException("Key doesn't exist");
-		
-		return removed;
+	public void removeDay(Date d) {
+		if(validateInput(new Day(d)) && days.remove(new Day(d)) != true) 
+			throw new IllegalArgumentException("Element doesn't exist");
+	}
+	
+	public void removeDay(Day d) {
+		if(validateInput(d) && days.remove(d) != true) 
+			throw new IllegalArgumentException("Element doesn't exist");
 	}
 	
 	public void updateDay(Day d) {
-		if(!days.containsKey(d.getDayDate()))
-			throw new IllegalArgumentException("Key doesn't exist");
-		
-		days.put(d.getDayDate(), d);
+		removeDay(d.getDay());
+		addDay(d);
 	}
 	
-	public Day getDay(Date d) {
-		if(!days.containsKey(d))
-			throw new IllegalArgumentException("Key doesn't exist");
+	public Day getDay(Date d) {		
+		if(validateInput(new Day(d)) && !days.contains(new Day(d)))
+			throw new IllegalArgumentException("Element doesn't already exist");
 		
-		return days.get(d);
+		Day found = null;
+		for(Day day : days) {
+			if(day.equals(new Day(d))) {
+				found = day;
+				break;
+			}
+		}
+		
+		return found;
 	}
 	
-	// return ordered List by keys
-	public Set<Day> getCalendar() {
-		Map<Date, Day> orderedDays = new TreeMap<>(days);
-		return new HashSet<Day>(orderedDays.values());
+	private boolean validateInput(Day d) {
+		if(d == null)
+			throw new NullPointerException("Date is null");
+		
+		if(!days.contains(d))
+			throw new IllegalArgumentException("Element doesn't already exist");
+		
+		return true;
+	}
+	
+	// return ordered Set
+	public Set<Day> getDays() {
+		return (new TreeSet<>(days));
+	}
+	
+	private void setDays(Set<Day> days) {
+		ConcurrentHashMap<Day, Object> daysMap = new ConcurrentHashMap<>();
+		this.days = daysMap.keySet(days);
 	}
 	
 }

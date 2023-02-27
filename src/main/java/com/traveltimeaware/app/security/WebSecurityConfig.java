@@ -54,15 +54,15 @@ public class WebSecurityConfig {
 	            .authorizeHttpRequests((authz) -> {
 					try {
 						authz
-						    .requestMatchers("/users").authenticated()
+						    .requestMatchers("/").authenticated()
 						    .anyRequest().permitAll()
 						    .and()
 						    .formLogin()
 						    	.usernameParameter("email")
-						    	.defaultSuccessUrl("/users")
+						    	.defaultSuccessUrl("/")
 						    	.permitAll()
 						    .and()
-						    .logout().logoutSuccessUrl("/").permitAll();
+						    .logout().logoutSuccessUrl("/login").permitAll();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
