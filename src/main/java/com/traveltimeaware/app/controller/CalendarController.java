@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonObject;
 import com.traveltimeaware.app.domain.Calendar;
+import com.traveltimeaware.app.domain.Day;
 import com.traveltimeaware.app.domain.repo.CalendarRepository;
 import com.traveltimeaware.app.security.CustomUserDetails;
 
@@ -27,12 +29,18 @@ public class CalendarController {
 			email = principal.toString();
 		}
 		
+		
 		Calendar c = calendarRepo.findByEmail(email);
+		
+		JsonObject json = new JsonObject();
+		for(Day d : c.getDays()) {
+			json.addProperty(d.getDay().toString(), d.getMeetings().size());
+		}
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("calendar");
-		mv.getModel().put("days", c.getDays());
-		
+		mv.getModel().put("days", json.toString());
+	
 		return mv;
 	}
 }

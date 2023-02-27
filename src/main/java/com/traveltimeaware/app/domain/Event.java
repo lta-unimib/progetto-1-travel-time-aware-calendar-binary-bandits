@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Event implements Comparable<Event> {
 	
 	protected LocalDateTime startEvent = LocalDateTime.MIN;
