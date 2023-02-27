@@ -13,28 +13,30 @@ public class TravelTime extends Event {
 	private long id;
 	
 	@Enumerated(EnumType.ORDINAL)
-	private Means means;
+	private Mean mean;
 	private String startLocation;
-	private String endLocation;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "meeting_id", referencedColumnName = "id")
 	private Meeting meeting;
 	
-	public TravelTime(LocalDateTime start, LocalDateTime end, Means means, String startLocation, String endLocation) {
+	public TravelTime(LocalDateTime start, LocalDateTime end, Mean mean, String startLocation, String endLocation) {
 		super(start, end);
 		
-		setMeans(means);
+		setMean(mean);
 		setStartLocation(startLocation);
-		setEndLocation(endLocation);
 	}
 	
-	public Means getMeans() {
-		return means;
+	public long getId() {
+		return id;
 	}
 	
-	public void setMeans(Means means) {
-		this.means = means;
+	public Mean getMean() {
+		return mean;
+	}
+	
+	public void setMean(Mean mean) {
+		this.mean = mean;
 	}
 	
 	public String getStartLocation() {
@@ -45,15 +47,5 @@ public class TravelTime extends Event {
 		if(startLocation == null)
 			throw new IllegalArgumentException("Location not valid");
 		this.startLocation = startLocation;
-	}
-	
-	public String getEndLocation() {
-		return endLocation;
-	}
-	
-	public void setEndLocation(String endLocation) {
-		if(endLocation == null)
-			throw new IllegalArgumentException("Location not valid");
-		this.endLocation = endLocation;
 	}
 }

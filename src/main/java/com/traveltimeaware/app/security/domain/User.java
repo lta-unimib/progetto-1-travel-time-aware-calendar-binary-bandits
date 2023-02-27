@@ -1,6 +1,6 @@
 package com.traveltimeaware.app.security.domain;
 
-import com.traveltimeaware.app.domain.Calendar;
+import com.traveltimeaware.app.domain.*;
 
 import jakarta.persistence.*;
 
@@ -26,6 +26,12 @@ public class User {
 	
 	@OneToOne(mappedBy = "user")
 	private Calendar calendar;
+	
+	@OneToOne(mappedBy = "user")
+	private PreferenceEvent preferenceEvent;
+	
+	@OneToOne(mappedBy = "user")
+	private PreferenceMean preferenceMean;
 
 	public boolean isEnabled() {
 		return enabled;
@@ -55,17 +61,7 @@ public class User {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getSurname() {
 		return surname;
 	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-	
-	
 }

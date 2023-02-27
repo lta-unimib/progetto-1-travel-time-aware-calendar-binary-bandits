@@ -3,6 +3,7 @@ package com.traveltimeaware.app.domain;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.persistence.*;
@@ -59,6 +60,10 @@ public class Day implements Comparable<Day> {
 		
 		return true;
 	}
+	
+	public Set<Meeting> getMeetings(){
+		return new TreeSet<>(meetings);
+	}
 
 	@Override
 	public String toString() {
@@ -88,6 +93,4 @@ public class Day implements Comparable<Day> {
 			throw new NullPointerException("Day is uncomparable, is null");
 		return this.day.compareTo(o.day);
 	}
-	
-	
 }

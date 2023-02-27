@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "meetings")
 public class Meeting extends Event {
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
