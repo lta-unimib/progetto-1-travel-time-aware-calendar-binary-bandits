@@ -54,7 +54,7 @@ public class WebSecurityConfig {
 	            .authorizeHttpRequests((authz) -> {
 					try {
 						authz
-						    .requestMatchers("/").authenticated()
+						    .requestMatchers("/**").authenticated()
 						    .anyRequest().permitAll()
 						    .and()
 						    .formLogin()

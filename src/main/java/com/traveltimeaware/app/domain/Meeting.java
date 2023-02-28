@@ -41,6 +41,7 @@ public class Meeting extends Event {
 			this.title = title;
 			this.location = location;
 			
+			this.travel = null;
 			this.start = start;
 			this.end = end;
 		}

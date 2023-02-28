@@ -3,6 +3,14 @@ plugins {
 	id 'war'
 	id 'org.springframework.boot' version '3.0.2'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id 'jacoco'
+    id 'org.sonarqube' version '3.5.0.2730'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
 }
 
 group = 'com.traveltimeaware'
@@ -31,6 +39,8 @@ dependencies {
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
 }
 
 tasks.named('test') {
