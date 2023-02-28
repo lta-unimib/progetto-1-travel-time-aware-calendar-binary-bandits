@@ -38,6 +38,16 @@ public class PreferenceMean {
 		return preferedMeans;
 	}
 	
+	public boolean contain(Mean mean) {
+		for(Mean m : preferedMeans) {
+			if(m.equals(mean)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public void addMean(Mean m) {
 		if(preferedMeans.add(m) != true)
 			throw new IllegalArgumentException("Element already exist");
