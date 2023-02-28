@@ -54,34 +54,15 @@
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
   
-  <script type="text/javascript"> 
+  <script th:inline="javascript"> 
     // days with meetings
     
   
     // Get the current date
     var currentDate = new Date();
     
-    //var days = JSON.parse([$[{days}]]);
-    var days = {
-        "10-02-2023":3,
-        "30-01-2023":3,
-        "02-02-2023":2,
-        "02-03-2023":2,
-        "03-02-2023":1,
-        "03-04-2024":1,
-        "03-03-2024":1,
-        "03-01-2024":1,
-        "16-02-2023":7,
-        "29-12-2021":7,
-        "16-09-2023":7,
-        "16-10-2023":6,
-        "16-11-2023":6,
-        "30-11-2023":6,
-        "31-12-2023":6,
-        "01-12-2023":6,
-        "01-01-2023":6,
-        "23-02-2023":3
-    };
+    var days = JSON.parse([[${events}]]);
+    console.log(days);
 
     // Extract the month and year
     var currMonth = currentDate.getMonth();

@@ -1,5 +1,6 @@
 package com.traveltimeaware.app.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,12 +50,13 @@ public class CalendarController {
 		
 		JsonObject json = new JsonObject();
 		for(Day d : active.getDays()) {
-			json.addProperty(d.getDay().toString(), d.getMeetings().size());
+			String date = new SimpleDateFormat("dd-MM-yyyy").format(d.getDay());
+			json.addProperty(date, d.getMeetings().size());
 		}
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("calendar");
-		mv.getModel().put("days", json.toString());
+		mv.getModel().put("events", json.toString());
 	
 		return mv;
 	}
