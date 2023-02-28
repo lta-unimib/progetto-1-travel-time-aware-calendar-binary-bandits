@@ -56,10 +56,17 @@
 	
 	<script type="text/javascript">	
 		// days with meetings
-		var days = [[${days}]];
+		
 	
 		// Get the current date
 		var currentDate = new Date();
+		
+		//var days = JSON.parse([$[{days}]]);
+		var days = {
+				"10-02-2023":1,
+				"02-02-2023":1,
+				"03-02-2023":1
+		};
 
 		// Extract the month and year
 		var currMonth = currentDate.getMonth();
@@ -103,6 +110,19 @@
 
 			for (var day = 1; day <= daysInMonth; day++) {
 				con++;
+				currDay = day;
+				formatMonth = currMonth+1;
+	                if(day<10){currDay="0"+day}
+	                if(currMonth<11){formatMonth="0"+(currMonth+1)}
+	                if ((currDay+"-"+formatMonth+"-"+currYear) in days) {
+	                      console.log("currday is in days");          										//test per vedere quelli che sono in days
+	                    } else {
+	                      console.log("not in days");														//test per vedere quelli che non sono in days
+	                      console.log(currDay+"-"+formatMonth+"-"+currYear);								//al posto di console potrò mettere quello che voglio
+	                      
+	                    }
+				
+	                
 				html += "<div class = 'col'>" + day + "</div>";
 				if (con % 7 == 0 && day != daysInMonth) {
 					html += "</div><div class = 'row px-2 text-center mb-4'>";
