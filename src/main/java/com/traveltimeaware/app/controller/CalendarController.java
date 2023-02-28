@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonObject;
 import com.traveltimeaware.app.domain.Calendar;
 import com.traveltimeaware.app.domain.Day;
+import com.traveltimeaware.app.domain.Meeting;
 import com.traveltimeaware.app.domain.repo.CalendarRepository;
 import com.traveltimeaware.app.security.CustomUserDetails;
 
@@ -29,7 +31,6 @@ public class CalendarController {
 			email = principal.toString();
 		}
 		
-		
 		Calendar c = calendarRepo.findByEmail(email);
 		
 		JsonObject json = new JsonObject();
@@ -41,6 +42,27 @@ public class CalendarController {
 		mv.setViewName("calendar");
 		mv.getModel().put("days", json.toString());
 	
+		return mv;
+	}
+	
+	@GetMapping("/create/meeting")
+	public ModelAndView getCreateMeetingPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("createMeeting");
+		
+		return mv;
+	}
+	
+	@PostMapping("/create/meeting")
+	public void addMeeting(Meeting meeting) {
+		
+	}
+	
+	@GetMapping("preferences")
+	public ModelAndView getPreferencePage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("preferences");
+		
 		return mv;
 	}
 }

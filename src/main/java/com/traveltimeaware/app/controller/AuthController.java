@@ -15,19 +15,6 @@ public class AuthController {
 	
 	@Autowired
     private UserRepository userRepo;
-	
-	/*
-	@GetMapping("/users")
-	public ModelAndView listUsers() {
-	    List<User> listUsers = userRepo.findAll();
-	    
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("users");
-	    mv.getModel().put("listUsers", listUsers);
-	     
-	    return mv;
-	} 
-	*/
      
     @GetMapping("/register")
     public ModelAndView showRegistrationForm() {

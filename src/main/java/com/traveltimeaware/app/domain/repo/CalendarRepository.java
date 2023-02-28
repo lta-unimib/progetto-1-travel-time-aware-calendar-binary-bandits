@@ -1,4 +1,4 @@
-package com.traveltimeaware.app.domain.repo;
+ package com.traveltimeaware.app.domain.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
