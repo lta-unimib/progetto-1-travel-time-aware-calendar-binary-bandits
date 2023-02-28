@@ -33,7 +33,8 @@ public class CalendarController {
 	private Calendar active;
 	private User logged;
 	
-	public CalendarController() {
+	@GetMapping("/")
+	public ModelAndView getHomepage() {		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		logged = ((CustomUserDetails) principal).getUser();
 		
@@ -45,10 +46,7 @@ public class CalendarController {
 		}
 		
 		active = calendarRepo.findByEmail(email);
-	}
-	
-	@GetMapping("/")
-	public ModelAndView getHomepage() {
+		
 		JsonObject json = new JsonObject();
 		for(Day d : active.getDays()) {
 			json.addProperty(d.getDay().toString(), d.getMeetings().size());
