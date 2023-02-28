@@ -109,26 +109,29 @@
 			}
 
 			for (var day = 1; day <= daysInMonth; day++) {
-				con++;
-				currDay = day;
-				formatMonth = currMonth+1;
-	                if(day<10){currDay="0"+day}
-	                if(currMonth<11){formatMonth="0"+(currMonth+1)}
-	                if ((currDay+"-"+formatMonth+"-"+currYear) in days) {
-	                      console.log("currday is in days");          										//test per vedere quelli che sono in days
-	                    } else {
-	                      console.log("not in days");														//test per vedere quelli che non sono in days
-	                      console.log(currDay+"-"+formatMonth+"-"+currYear);								//al posto di console potrò mettere quello che voglio
-	                      
-	                    }
-				
-	                
-				html += "<div class = 'col'>" + day + "</div>";
-				if (con % 7 == 0 && day != daysInMonth) {
-					html += "</div><div class = 'row px-2 text-center mb-4'>";
-				}
+		        con++;
+		        currDay = day;
+		        formatMonth = currMonth+1;
+		                  if(day<10){currDay="0"+day}
+		                  if(currMonth<11){formatMonth="0"+(currMonth+1)}
+		                  if ((currDay+"-"+formatMonth+"-"+currYear) in days) {
+		                        formatDate = (currDay+"-"+formatMonth+"-"+currYear);
+		                        console.log("currday is in days");                              //test per vedere quelli che sono in days
+		                        html += "<div class = 'col'><div class = 'card'><div class = 'card-body'>" + day + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
+		                          if (con % 7 == 0 && day != daysInMonth) {
+		                            html += "</div><div class = 'row px-2 text-center mb-4'>";
+		                          }
+		                      }
+		                  else{
 
-			}
+		                      html += "<div class = 'col'><div class = 'card'><div class = 'card-body'>" + day + "</div></div></div>";
+		                      if (con % 7 == 0 && day != daysInMonth) {
+		                      html += "</div><div class = 'row px-2 text-center mb-4'>";
+		                      }
+		                  }
+		        
+
+		      }
 
 			for (var day = lastDayOMonth; day < 6; day++) {
 				con++;
@@ -153,8 +156,7 @@
 
 		const arrowLeft = document.querySelector('.bi-arrow-left');
 
-		arrowLeft
-				.addEventListener(
+		arrowLeft.addEventListener(
 						'click',
 						function() {
 							currMonth = currMonth - 1;
@@ -177,8 +179,7 @@
 
 		const arrowRight = document.querySelector('.bi-arrow-right');
 
-		arrowRight
-				.addEventListener(
+		arrowRight.addEventListener(
 						'click',
 						function() {
 							currMonth = currMonth + 1;
