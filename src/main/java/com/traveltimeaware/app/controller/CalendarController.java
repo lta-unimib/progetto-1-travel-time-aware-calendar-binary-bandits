@@ -12,11 +12,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,6 +31,8 @@ import com.traveltimeaware.app.domain.*;
 import com.traveltimeaware.app.domain.repo.CalendarRepository;
 import com.traveltimeaware.app.security.CustomUserDetails;
 import com.traveltimeaware.app.security.domain.User;
+
+import jakarta.websocket.server.PathParam;
 
 @Controller
 public class CalendarController {
@@ -102,6 +107,28 @@ public class CalendarController {
 		day.addMeeting(meeting);
 		active.addDay(day);
 		calendarRepo.save(active);
+	}
+	
+	@RequestMapping(value = "/day/{day}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String getMeetingForDay(@PathParam("day") Date date) {
+		Day d = active.getDay(date);
+		
+		JsonObject json = new JsonObject();
+		for(Meeting m: d.getMeetings()) {
+			json.addProperty("title", m.getTitle());
+			json.addProperty("start", m.getStart().toString());
+			json.addProperty("end", m.getEnd().toString());
+			
+			JsonObject travel = new JsonObject();
+			travel.addProperty("start", m.getStart().toString());
+			travel.addProperty("end", m.getEnd().toString());
+			travel.addProperty("locationStart", m.getTravelTime().getStartLocation());
+			travel.addProperty("meansOfTransport", m.getTravelTime().getMean().toString());
+			
+			json.add("travel", travel);
+		}
+		
+		return json.toString();
 	}
 	
 	@GetMapping("preferences")
