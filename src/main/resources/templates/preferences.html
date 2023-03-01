@@ -14,20 +14,20 @@
         <p>Preferences</p>
       </div>
 
-       <div class="row ">
+       <div class="row mb-4">
          <div class="col"></div>
          <div class="col-6">
             Lunch start/end time:
            <form class="form">
-              <div class="row text-center">
+              <div class="row text-center mb-4">
                 <label for="startTime">Start Time:</label>
                 <input type="time" class="form-control" id="startTime" name="startTime">
               </div>
-              <div class="row text-center">
+              <div class="row text-center mb-4">
                 <label for="endTime">End Time:</label>
                 <input type="time" class="form-control" id="endTime" name="endTime">
               </div>
-              <div class="row text-center">Preferenze mezzi:</div>
+              <div class="row text-center mb-4">Preferenze mezzi:</div>
               <div class="row">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="foot">
@@ -52,9 +52,20 @@
                     </label>
                   </div>
               </div>  
+<<<<<<< HEAD
+=======
+              <div class="row mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="bicycle">
+                    <label class="form-check-label" for="bicycle">
+                      Bicycle
+                    </label>
+                  </div>
+              </div>
+>>>>>>> branch 'develop' of git@ssh_campus:lta-unimib/progetto-1-travel-time-aware-calendar-binary-bandits.git
               <div class="row text-center">
                   <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Confirm</button>
+                    <button type="submit" class="btn btn-primary" id="confirm">Confirm</button>
                   </div>
               </div>  
             </form>
@@ -66,8 +77,47 @@
 
     </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    
+<script>
+      $(document).ready(function(){
+        $("#confirm").click(function(e){
+    e.preventDefault();
+    
+    // Get form data
+    var startTime = $("#startTime").val();
+    var endTime = $("#endTime").val();
+    var foot = $("#foot").is(":checked");
+    var publicTransport = $("#publicTransport").is(":checked");
+    var car = $("#car").is(":checked");
+    
+    // Create JSON object
+    var data = {
+      means: []
+    };
+    if(car == true){data.means.push("CAR");}
+    if(publicTransport == true){data.means.push("PUBLIC-TRANSPORT");}
+    if(foot == true){data.means.push("FOOT");}
+    
+    // Send AJAX request
+    $.ajax({
+      type: "POST",
+      url: "/preferences",
+      data: JSON.stringify(data),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(response){
+        console.log(data);
+        // succs
+      },
+      error: function(xhr, status, error){
+        // error
+      }
+    });
+  });
+});
+    </script>
 
   </body>
 </html>
