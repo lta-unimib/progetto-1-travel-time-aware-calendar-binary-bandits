@@ -8,14 +8,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
   </head>
   <body>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <div class="container">
   </div>
   	<script>
   	
-  		var data = "10-02-2023"
+  		var date = "10-02-2023"
   	
 	  $.ajax({
-	  url: "/day/" + data,
+	  url: "/day/" + date,
 	  type: "GET",
 	  dataType: "json",
 	  success: function(data) {
