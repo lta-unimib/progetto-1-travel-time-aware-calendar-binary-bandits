@@ -88,22 +88,20 @@
     var foot = $("#foot").is(":checked");
     var publicTransport = $("#publicTransport").is(":checked");
     var car = $("#car").is(":checked");
-    var bicycle = $("#bicycle").is(":checked");
     
     // Create JSON object
     var data = {
-      startTime: startTime,
-      endTime: endTime,
-      foot: foot,
-      publicTransport: publicTransport,
-      car: car,
-      bicycle: bicycle
+      means: []
     };
+    
+    data.means.push("CAR");
+    data.means.push("PUBLIC-TRANSPORT");
+    data.means.push("FOOT");
     
     // Send AJAX request
     $.ajax({
       type: "POST",
-      url: "",
+      url: "/preferences",
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
