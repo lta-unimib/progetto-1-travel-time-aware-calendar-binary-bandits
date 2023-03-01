@@ -20,7 +20,7 @@ public class TravelTime extends Event {
     @JoinColumn(name = "meeting_id", referencedColumnName = "id")
 	private Meeting meeting;
 	
-	public TravelTime(LocalDateTime start, LocalDateTime end, Mean mean, String startLocation, String endLocation) {
+	public TravelTime(LocalDateTime start, LocalDateTime end, Mean mean, String startLocation) {
 		super(start, end);
 		
 		setMean(mean);

@@ -36,6 +36,10 @@ public class User {
 	public boolean isEnabled() {
 		return enabled;
 	}
+	
+	public PreferenceMean getPreferenceMean() {
+		return preferenceMean;
+	}
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;

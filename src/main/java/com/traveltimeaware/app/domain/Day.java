@@ -1,6 +1,8 @@
 package com.traveltimeaware.app.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -40,7 +42,7 @@ public class Day implements Comparable<Day> {
 		return this.day;
 	}
 	
-	public void addMeeting(Meeting m) {
+	public void addMeeting(Meeting m) {	
 		if(validateInput(m) && meetings.add(m) != true)
 			throw new IllegalArgumentException("Element already exist");
 	}

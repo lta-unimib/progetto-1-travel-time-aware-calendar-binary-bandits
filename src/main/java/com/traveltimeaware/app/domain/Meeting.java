@@ -41,18 +41,13 @@ public class Meeting extends Event {
 			this.title = title;
 			this.location = location;
 			
-			this.travel = null;
+			this.travel = travel;
 			this.start = start;
 			this.end = end;
 		}
 		
 		public Builder description(String description) {
 			this.description = description;
-			return this;
-		}
-		
-		public Builder repetition(boolean repetition) {
-			this.repetition = repetition;
 			return this;
 		}
 		

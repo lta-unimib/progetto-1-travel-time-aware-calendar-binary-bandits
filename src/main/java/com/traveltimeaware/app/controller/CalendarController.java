@@ -1,7 +1,11 @@
 package com.traveltimeaware.app.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,9 +74,30 @@ public class CalendarController {
 	}
 	
 	@PostMapping("/create/meeting")
-	public void addMeeting(Meeting meeting) {
-		Date date = Date.from(meeting.getStart().atZone(ZoneId.systemDefault()).toInstant());
+	public void addMeeting(@RequestBody Map<String, String> payload) {
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("dd/MM/yyyy").parse(payload.get("start"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}  
+		
 		Day day = active.getDay(date);
+		
+		List<Meeting> dayMeetings = new ArrayList<>(day.getMeetings());
+		
+		Meeting meeting;
+		if(dayMeetings.size() == 0) { // primo meeting						
+			LocalDateTime start = LocalDateTime.parse(payload.get("start"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			LocalDateTime end = LocalDateTime.parse(payload.get("end"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			meeting = new Meeting.Builder(start, end, payload.get("title"), payload.get("location"), null).build();
+		} else {
+			Meeting last = dayMeetings.get(dayMeetings.size() - 1);
+			LocalDateTime start = LocalDateTime.parse(payload.get("start"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			LocalDateTime end = LocalDateTime.parse(payload.get("end"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			TravelTime travel = new TravelTime(last.getEnd(), start, Mean.PUBLIC_TRANSPORT, last.getLocation());
+			meeting = new Meeting.Builder(start, end, payload.get("title"), payload.get("location"), null).build();
+		}
 		
 		day.addMeeting(meeting);
 		active.addDay(day);
@@ -90,12 +115,25 @@ public class CalendarController {
 	@PostMapping("preferences")
 	public void setPreferenceMean(@RequestBody String json) {
 		ObjectMapper objectMapper = new ObjectMapper();
+		String[] langs = null;
+		
 		try {
-			String[] langs = objectMapper.readValue(json, String[].class);
+			langs = objectMapper.readValue(json, String[].class);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		
-		
+		for(int i = 0; i < json.length(); i++) {
+			switch(langs[i]) {
+			case "PUBLIC_TRANSPORT":
+				logged.getPreferenceMean().addMean(Mean.PUBLIC_TRANSPORT);
+				
+			case "CAR":
+				logged.getPreferenceMean().addMean(Mean.CAR);
+				
+			case "FOOT":
+				logged.getPreferenceMean().addMean(Mean.FOOT);
+			}
+		}
 	}
 }
