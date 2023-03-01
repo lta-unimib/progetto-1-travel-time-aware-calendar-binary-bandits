@@ -10,7 +10,20 @@
   <body>
   <div class="container">
   </div>
-  
+  	<script>
+	  $.ajax({
+	  url: "",
+	  type: "GET",
+	  dataType: "json",
+	  success: function(data) {
+	    // Handle the retrieved JSON data
+		  var meetings = JSON.parse(data); 
+	  },
+	  error: function(jqXHR, textStatus, errorThrown) {
+	    console.log("Error getting json : " + textStatus);
+	  }
+	});
+	</script>
   
     <script th:inline="javascript">
       
