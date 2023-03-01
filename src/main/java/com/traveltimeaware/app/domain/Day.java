@@ -43,28 +43,18 @@ public class Day implements Comparable<Day> {
 	}
 	
 	public void addMeeting(Meeting m) {	
-		if(validateInput(m) && meetings.add(m) != true)
+		if(m == null || meetings.add(m) != true)
 			throw new IllegalArgumentException("Element already exist");
 	}
 	
 	public void removeMeeting(Meeting m) {
-		if(validateInput(m) && meetings.remove(m) != true) 
+		if(m == null || meetings.remove(m) != true) 
 			throw new IllegalArgumentException("Element doesn't exist");
 	}
 	
 	public void updateMeeting(Meeting m) {
 		removeMeeting(m);
 		addMeeting(m);
-	}
-	
-	private boolean validateInput(Meeting m) {
-		if(m == null)
-			throw new NullPointerException("Meeting is null");
-		
-		if(!meetings.contains(m))
-			throw new IllegalArgumentException("Element doesn't already exist");
-		
-		return true;
 	}
 	
 	public Set<Meeting> getMeetings(){

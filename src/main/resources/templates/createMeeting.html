@@ -20,23 +20,28 @@
            <form th:action="@{/create/meeting}"
             method="post">
 
+			<div class="row text-center">
+              <label for="startTime">Date:</label>
+              <input type="date" class="form-control" name="day">
+            </div>
+
             <div class="row text-center">
               <label for="startTime">Start Time:</label>
-              <input type="time" th:field="*{startTime}" class="form-control" id="startTime" name="startTime">
+              <input type="time" class="form-control" id="startTime" name="start">
             </div>
             <div class="row text-center">
               <label for="endTime">End Time:</label>
-              <input type="time" th:field="*{endTime}" class="form-control" id="endTime" name="endTime">
+              <input type="time" class="form-control" id="endTime" name="end">
             </div>
 
             <div class="row">
               <label for="title" class="form-label">Title</label>
-              <input type="text" th:field="*{title}" class="form-control" id="title">
+              <input type="text" class="form-control" id="title" name="title">
             </div>
             
             <div class="row">
               <label for="location" class="form-label">Start Location</label>
-              <input type="text" th:field="*{location}" class="form-control" id="location">
+              <input type="text" class="form-control" id="location" name="location">
             </div>
             
             <div class="row">

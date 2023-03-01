@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -78,14 +79,18 @@ public class CalendarController {
 		return mv;
 	}
 	
-	@PostMapping("/create/meeting")
-	public void addMeeting(@RequestBody Map<String, String> payload) {
+	@PostMapping(value = "/create/meeting", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public void addMeeting(@RequestBody MultiValueMap<String, String> payload) {
 		Date date = null;
+		String dateStr = payload.get("day").get(0);
 		try {
-			date = new SimpleDateFormat("dd/MM/yyyy").parse(payload.get("start"));
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
-		}  
+		}
+		
+		if(!active.getDays().contains(new Day(date)))
+			active.addDay(new Day(date));
 		
 		Day day = active.getDay(date);
 		
@@ -93,15 +98,15 @@ public class CalendarController {
 		
 		Meeting meeting;
 		if(dayMeetings.size() == 0) { // primo meeting						
-			LocalDateTime start = LocalDateTime.parse(payload.get("start"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-			LocalDateTime end = LocalDateTime.parse(payload.get("end"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-			meeting = new Meeting.Builder(start, end, payload.get("title"), payload.get("location"), null).build();
+			LocalDateTime start = LocalDateTime.parse(dateStr + " " + payload.get("start").get(0), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			LocalDateTime end = LocalDateTime.parse(dateStr + " " + payload.get("end").get(0), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			meeting = new Meeting.Builder(start, end, payload.get("title").get(0), payload.get("location").get(0), null).build();
 		} else {
 			Meeting last = dayMeetings.get(dayMeetings.size() - 1);
-			LocalDateTime start = LocalDateTime.parse(payload.get("start"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-			LocalDateTime end = LocalDateTime.parse(payload.get("end"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			LocalDateTime start = LocalDateTime.parse(dateStr + " " + payload.get("start").get(0), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			LocalDateTime end = LocalDateTime.parse(dateStr + " " + payload.get("end").get(0), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 			TravelTime travel = new TravelTime(last.getEnd(), start, Mean.PUBLIC_TRANSPORT, last.getLocation());
-			meeting = new Meeting.Builder(start, end, payload.get("title"), payload.get("location"), null).build();
+			meeting = new Meeting.Builder(start, end, payload.get("title").get(0), payload.get("location").get(0), null).build();
 		}
 		
 		day.addMeeting(meeting);
@@ -109,7 +114,7 @@ public class CalendarController {
 		calendarRepo.save(active);
 	}
 	
-	@RequestMapping(value = "/day/{day}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/day/{day}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getMeetingForDay(@PathParam("day") Date date) {
 		Day d = active.getDay(date);
 		

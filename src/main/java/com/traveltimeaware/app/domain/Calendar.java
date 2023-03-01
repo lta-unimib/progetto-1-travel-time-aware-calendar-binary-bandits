@@ -32,17 +32,17 @@ public class Calendar {
 	}
 
 	public void addDay(Day d) {
-		if(validateInput(d) && days.add(d) != true)
+		if(d == null || days.add(d) != true)
 			throw new IllegalArgumentException("Element already exist");
 	}
 	
 	public void removeDay(Date d) {
-		if(validateInput(new Day(d)) && days.remove(new Day(d)) != true) 
+		if(d == null || days.remove(new Day(d)) != true) 
 			throw new IllegalArgumentException("Element doesn't exist");
 	}
 	
 	public void removeDay(Day d) {
-		if(validateInput(d) && days.remove(d) != true) 
+		if(d == null || days.remove(d) != true) 
 			throw new IllegalArgumentException("Element doesn't exist");
 	}
 	
@@ -52,7 +52,7 @@ public class Calendar {
 	}
 	
 	public Day getDay(Date d) {		
-		if(validateInput(new Day(d)) && !days.contains(new Day(d)))
+		if(d == null || !days.contains(new Day(d)))
 			throw new IllegalArgumentException("Element doesn't already exist");
 		
 		Day found = null;
@@ -64,16 +64,6 @@ public class Calendar {
 		}
 		
 		return found;
-	}
-	
-	private boolean validateInput(Day d) {
-		if(d == null)
-			throw new NullPointerException("Date is null");
-		
-		if(!days.contains(d))
-			throw new IllegalArgumentException("Element doesn't already exist");
-		
-		return true;
 	}
 	
 	// return ordered Set
