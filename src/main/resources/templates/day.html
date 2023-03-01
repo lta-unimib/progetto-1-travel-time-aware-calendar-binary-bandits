@@ -11,8 +11,11 @@
   <div class="container">
   </div>
   	<script>
+  	
+  		var data = "10-02-2023"
+  	
 	  $.ajax({
-	  url: "",
+	  url: "/day/" + data,
 	  type: "GET",
 	  dataType: "json",
 	  success: function(data) {
