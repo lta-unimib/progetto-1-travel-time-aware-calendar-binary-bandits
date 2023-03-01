@@ -93,10 +93,9 @@
     var data = {
       means: []
     };
-    
-    data.means.push("CAR");
-    data.means.push("PUBLIC-TRANSPORT");
-    data.means.push("FOOT");
+    if(car == true){data.means.push("CAR");}
+    if(car == true){data.means.push("PUBLIC-TRANSPORT");}
+    if(car == true){data.means.push("FOOT");}
     
     // Send AJAX request
     $.ajax({
