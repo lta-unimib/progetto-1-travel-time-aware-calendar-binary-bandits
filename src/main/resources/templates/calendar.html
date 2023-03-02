@@ -44,10 +44,14 @@
       <div class="row mb-4">
         <div class="col" id="calender"></div>
       </div>
-      <form th:action="@{/logout}" method="post">
-        <button type="submit" class="btn btn-primary">SignOut</button>
-      </form>
-      <a href="/create/meeting" class="btn btn-primary">CreateMeeting</a>.
+      <div class="row mb-4">
+	  <div class="col-2">
+	    <form th:action="@{/logout}" method="post">
+	        <button type="submit" class="btn btn-danger">SignOut</button>
+	      </form>
+	    </div>
+	  <div class="col  px-2"><a href="/create/meeting" class="btn btn-primary">NewMeeting</a></div>
+	</div>
 
     </div>
   </div>
