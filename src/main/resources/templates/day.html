@@ -10,6 +10,7 @@
   <body>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <div class="container">
+  
   </div>
   
     <script th:inline="javascript">
@@ -53,7 +54,7 @@
           }
         }
       
-var html ="<div class='card'><div class='card-header text-center'>"+"dd-mm-yyyy"+"</div><div class='card-body'><div class='row mb-4'><div class='col text-center'><i class='bi bi-arrow-left'></i></div><div class='col text-center'><i class='bi bi-arrow-right'></i></div></div><div class='row'><div class='col-2'></div><div class='col-8'>";
+var html ="<div class='card'><div class='card-header text-center'>"+"dd-mm-yyyy"+"</div><div class='card-body'><div class='row mb-4'><div class='col text-center'><div class='row'><div class='col-2'><form action='/create/meeting'><button type='submit' class='btn btn-primary px-2'>NewMeeting</button></form></div></div></div></div><div class='row'><div class='col-2'></div><div class='col-8'>";
 Object.values(meetings).forEach(function(meeting) {
   html += ("<div class='row mb-4'><div class='card' ><div class='card-header'>"+meeting.title+"</div><div class='card-body'><div id='start'>"+meeting.start+"</div><div id='end'>"+meeting.end+"</div></div></div></div><div class='row mb-4'><div class='card'><div class='card-header'>"+"Travel"+"</div><div class='card-body'><div id='start'>"+meeting.travel.startTravel+"</div><div id='end'>"+meeting.travel.endTravel+"</div><div id='locationStart'>"+meeting.travel.locationStart+"</div><div id='means'>"+meeting.travel.meansOfTransport+"</div></div></div></div>");
 });
