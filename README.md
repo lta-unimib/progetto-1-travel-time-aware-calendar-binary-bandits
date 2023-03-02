@@ -7,4 +7,4 @@ Docenti di riferimento:
 # Istruzioni per l'installazione
 1. Aprire il prompt dei comandi
 2. Navigare fino alla directory dove si è installata l'applicazione
-3. Eseguire il comando "gradlew build" dalla root della directory
+3. Eseguire il comando `gradlew build` dalla root della directory
