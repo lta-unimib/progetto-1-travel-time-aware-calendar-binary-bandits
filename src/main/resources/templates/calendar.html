@@ -113,20 +113,19 @@
          formatDate = (currDay+"-"+formatMonth+"-"+formatYear);       
         if ((currDay+"-"+formatMonth+"-"+formatYear) in days){
           
-            html += "<div class = 'col'><div class = 'card' id='clickable'><div class = 'card-body' >" + (lastDayOfLastMonth - day + 1)
+            html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body' >" + (lastDayOfLastMonth - day + 1)
               + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
           if (con % 7 == 0 && day != daysInMonth) {
             html += "</div><div class = 'row px-2 text-center mb-4'>";
           }
         }
           else{
-            html += "<div class = 'col'><div class = 'card' id='clickable'><div class = 'card-body'>" + (lastDayOfLastMonth - day + 1)
+            html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + (lastDayOfLastMonth - day + 1)
               + "</div></div></div>";
           if (con % 7 == 0 && day != daysInMonth) {
             html += "</div><div class = 'row px-2 text-center mb-4'>";
           } 
         }        
-        console.log(formatDate);
       }
 
 
@@ -140,13 +139,13 @@
                 formatDate = (currDay+"-"+formatMonth+"-"+currYear);
                   if ((currDay+"-"+formatMonth+"-"+currYear) in days) {
                         //console.log("currday is in days");                              //test per vedere quelli che sono in days
-                        html += "<div class = 'col'><div class = 'card' id='clickable'><div class = 'card-body' >" + day + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
+                        html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body' >" + day + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
                           if (con % 7 == 0 && day != daysInMonth) {
                             html += "</div><div class = 'row px-2 text-center mb-4'>";
                           }
                       }
                   else{
-                      html += "<div class = 'col'><div class = 'card' id='clickable'><div class = 'card-body'>" + day + "</div></div></div>";
+                      html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + day + "</div></div></div>";
                       if (con % 7 == 0 && day != daysInMonth) {
                       html += "</div><div class = 'row px-2 text-center mb-4'>";
                       }
@@ -174,20 +173,20 @@
          if(formatMonth=="01"){formatYear++;}
          formatDate = (currDay+"-"+formatMonth+"-"+formatYear);
         if ((currDay+"-"+formatMonth+"-"+formatYear) in days){
-            html += "<div class = 'col' ><div class = 'card' id='clickable'><div class = 'card-body'>" + (day - lastDayOMonth + 1)
+            html += "<div class = 'col' ><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + (day - lastDayOMonth + 1)
               + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
           if (con % 7 == 0 && day != daysInMonth) {
             html += "</div><div class = 'row px-2 text-center mb-4'>";
           }
         }
         else{
-            html += "<div class = 'col'><div class = 'card' id='clickable'><div class = 'card-body'>" + (day - lastDayOMonth + 1)
+            html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + (day - lastDayOMonth + 1)
               + "</div></div></div>";
           if (con % 7 == 0 && day != daysInMonth) {
             html += "</div><div class = 'row px-2 text-center mb-4'>";
           }
         }
-         console.log(formatDate);
+         //console.log(formatDate);
       }
 
 
@@ -202,11 +201,34 @@
       // Update the content of the element with the generated HTML
       calenderRow.innerHTML = html;
     }
+    
 
     // Get the number of days in the month
     var daysInMonth = new Date(currYear, currMonth + 1, 0).getDate();
 
     render(daysInMonth);
+    function ajaxClickDay(){
+    		var cards = document.querySelectorAll('.card.clickable');
+    	    cards.forEach(function(card) {
+    	      card.addEventListener('click', function() {
+    	        console.log('Card clicked:', card.dataset.info);
+    	        var geturl= "/days/"+card.dataset.info;
+    	        console.log(geturl);
+    	        $.ajax({
+    				url: geturl,
+    				method: "GET",
+    				success: function(response) {
+    					$("#response").text(response);
+    				},
+    				error: function(xhr, status, error) {
+    					console.error(xhr, status, error);
+    				}
+    			});
+    	      });
+    	    });	
+    }
+    ajaxClickDay();
+    
 
     const arrowLeft = document.querySelector('.bi-arrow-left');
 
@@ -228,6 +250,7 @@
                   + " " + currYear;
               // Generate HTML for each day of the month
               render(daysInMonth);
+              ajaxClickDay();
 
               //console.log(currMonth);
             });
@@ -252,12 +275,12 @@
 
               // Generate HTML for each day of the month
               render(daysInMonth);
+              ajaxClickDay();
 
             //  console.log(currMonth);
               //console.log(arrowRight);
             });
   
-    
   </script>
   
  </div>
