@@ -21,8 +21,8 @@
             method="post">
 
 			<div class="row text-center">
-              <label for="startTime">Date:</label>
-              <input type="date" class="form-control" name="day">
+              <label for="date">Date:</label>
+              <input type="date" class="form-control" id="date" name="day">
             </div>
 
             <div class="row text-center">
@@ -46,6 +46,7 @@
             
             <div class="row">
               <label for="description" class="form-label">Description</label>
+              <input type="text" id="desciption" name="description">
             </div>
 
             <div class="row">
@@ -66,6 +67,47 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+	<script>																//ajax per post di un nuovo meeting
+      $(document).ready(function(){
+	        $("#confirm").click(function(e){
+	    e.preventDefault();
+	    
+	    // Get form data
+	  	var day = $("input[name='day']").val();
+		var start = $("input[name='start']").val();
+		var end = $("input[name='end']").val();
+		var title = $("input[name='title']").val();
+		var location = $("input[name='location']").val();
+		var description = $("textarea[name='description']").val();
 
+	    
+	    // Create JSON object
+	    var data = {
+	    		day: day,
+	    	    start: start,
+	    	    end: end,
+	    	    title: title,
+	    	    location: location,
+	    	    description: description
+	    };
+	    
+	    // Send AJAX request
+	    $.ajax({
+	      type: "POST",
+	      url: "",															//aggiungere url
+	      data: JSON.stringify(data),
+	      contentType: "application/json; charset=utf-8",
+	      dataType: "json",
+	      success: function(response){
+	        console.log(data);
+	        // succs
+	      },
+	      error: function(xhr, status, error){
+	        // error
+	      }
+	    });
+	  });
+	});
+    </script>
   </body>
 </html>
