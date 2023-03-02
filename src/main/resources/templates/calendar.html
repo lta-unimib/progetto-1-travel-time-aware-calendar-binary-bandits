@@ -116,7 +116,7 @@
          formatYear=currYear;
          if(currMonth==0){formatYear--;}
          formatDate = (currDay+"-"+formatMonth+"-"+formatYear);       
-        if ((currDay+"-"+formatMonth+"-"+formatYear) in days){
+        if (((currDay+"-"+formatMonth+"-"+formatYear) in days)&&(days[formatDate]!=0)){
           
             html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body' >" + (lastDayOfLastMonth - day + 1)
               + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
@@ -142,7 +142,7 @@
                   if(day<10){currDay="0"+day}
                   if(currMonth<9){formatMonth="0"+(currMonth+1);}
                 formatDate = (currDay+"-"+formatMonth+"-"+currYear);
-                  if ((currDay+"-"+formatMonth+"-"+currYear) in days) {
+                  if (((currDay+"-"+formatMonth+"-"+currYear) in days)&&(days[formatDate]!=0)) {
                         //console.log("currday is in days");                              //test per vedere quelli che sono in days
                         html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body' >" + day + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
                           if (con % 7 == 0 && day != daysInMonth) {
@@ -177,7 +177,7 @@
         formatYear=currYear;
          if(formatMonth=="01"){formatYear++;}
          formatDate = (currDay+"-"+formatMonth+"-"+formatYear);
-        if ((currDay+"-"+formatMonth+"-"+formatYear) in days){
+        if (((currDay+"-"+formatMonth+"-"+formatYear) in days)&&(days[formatDate]!=0)){
             html += "<div class = 'col' ><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + (day - lastDayOMonth + 1)
               + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
           if (con % 7 == 0 && day != daysInMonth) {
