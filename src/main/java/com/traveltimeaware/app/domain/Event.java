@@ -12,7 +12,7 @@ public abstract class Event implements Comparable<Event> {
 	protected LocalDateTime startEvent = LocalDateTime.MIN;
 	protected LocalDateTime endEvent = LocalDateTime.MAX;
 	
-	public Event(LocalDateTime start, LocalDateTime end) {
+	protected Event(LocalDateTime start, LocalDateTime end) {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
 		
 		this.startEvent.format(format); 

@@ -32,17 +32,17 @@ public class Calendar {
 	}
 
 	public void addDay(Day d) {
-		if(d == null || days.add(d) != true)
+		if(d == null || !days.add(d))
 			throw new IllegalArgumentException("Element already exist");
 	}
 	
 	public void removeDay(Date d) {
-		if(d == null || days.remove(new Day(d)) != true) 
+		if(d == null || !days.remove(new Day(d))) 
 			throw new IllegalArgumentException("Element doesn't exist");
 	}
 	
 	public void removeDay(Day d) {
-		if(d == null || days.remove(d) != true) 
+		if(d == null || !days.remove(d)) 
 			throw new IllegalArgumentException("Element doesn't exist");
 	}
 	

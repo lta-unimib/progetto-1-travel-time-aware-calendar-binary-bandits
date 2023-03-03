@@ -49,12 +49,12 @@ public class PreferenceMean {
 	}
 	
 	public void addMean(Mean m) {
-		if(preferedMeans.add(m) != true)
+		if(!preferedMeans.add(m))
 			throw new IllegalArgumentException("Element already exist");
 	}
 	
 	public void removeMean(Mean m) {
-		if(preferedMeans.remove(m) != true) 
+		if(!preferedMeans.remove(m)) 
 			throw new IllegalArgumentException("Element doesn't exist");
 	}
 }

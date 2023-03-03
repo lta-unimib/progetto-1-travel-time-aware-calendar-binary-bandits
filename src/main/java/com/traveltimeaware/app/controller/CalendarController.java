@@ -1,5 +1,6 @@
 package com.traveltimeaware.app.controller;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,7 +45,9 @@ public class CalendarController {
 	
 	private Calendar active;
 	private User logged;
-	
+	private static final String ACTION_1 = "start";
+	private static final String ACTION_2 = "title";
+	private static final String ACTION_3 = "yyyy-MM-dd HH:mm";
 	@GetMapping("/")
 	public ModelAndView getHomepage() {		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -97,16 +101,16 @@ public class CalendarController {
 		List<Meeting> dayMeetings = new ArrayList<>(day.getMeetings());
 		
 		Meeting meeting;
-		if(dayMeetings.size() == 0) { // primo meeting						
-			LocalDateTime start = LocalDateTime.parse(dateStr + " " + payload.get("start").get(0), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-			LocalDateTime end = LocalDateTime.parse(dateStr + " " + payload.get("end").get(0), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-			meeting = new Meeting.Builder(start, end, payload.get("title").get(0), payload.get("location").get(0), null).build();
+		if(dayMeetings.isEmpty()) { // primo meeting						
+			LocalDateTime start = LocalDateTime.parse(dateStr + " " + payload.get(ACTION_1).get(0), DateTimeFormatter.ofPattern(ACTION_3));
+			LocalDateTime end = LocalDateTime.parse(dateStr + " " + payload.get("end").get(0), DateTimeFormatter.ofPattern(ACTION_3));
+			meeting = new Meeting.Builder(start, end, payload.get(ACTION_2).get(0), payload.get("location").get(0), null).build();
 		} else {
 			Meeting last = dayMeetings.get(dayMeetings.size() - 1);
-			LocalDateTime start = LocalDateTime.parse(dateStr + " " + payload.get("start").get(0), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-			LocalDateTime end = LocalDateTime.parse(dateStr + " " + payload.get("end").get(0), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			LocalDateTime start = LocalDateTime.parse(dateStr + " " + payload.get(ACTION_1).get(0), DateTimeFormatter.ofPattern(ACTION_3));
+			LocalDateTime end = LocalDateTime.parse(dateStr + " " + payload.get("end").get(0), DateTimeFormatter.ofPattern(ACTION_3));
 			TravelTime travel = new TravelTime(last.getEnd(), start, Mean.PUBLIC_TRANSPORT, last.getLocation());
-			meeting = new Meeting.Builder(start, end, payload.get("title").get(0), payload.get("location").get(0), null).build();
+			meeting = new Meeting.Builder(start, end, payload.get(ACTION_2).get(0), payload.get("location").get(0), null).build();
 		}
 		
 		day.addMeeting(meeting);
@@ -114,18 +118,19 @@ public class CalendarController {
 		calendarRepo.save(active);
 	}
 	
-	@GetMapping(value = "/day/{day}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String getMeetingForDay(@PathParam("day") Date date) {
+	@GetMapping(value = "/day/{day}", produces = MediaType.APPLICATION_JSON_VALUE)		//added formatDay to be used by the day.html page to display date
+	public String getMeetingForDay(@PathParam("day") Date date, Model model) {
 		Day d = active.getDay(date);
+		model.addAttribute("formatDay", date);
 		
 		JsonObject json = new JsonObject();
 		for(Meeting m: d.getMeetings()) {
-			json.addProperty("title", m.getTitle());
-			json.addProperty("start", m.getStart().toString());
+			json.addProperty(ACTION_2, m.getTitle());
+			json.addProperty(ACTION_1, m.getStart().toString());
 			json.addProperty("end", m.getEnd().toString());
 			
 			JsonObject travel = new JsonObject();
-			travel.addProperty("start", m.getStart().toString());
+			travel.addProperty(ACTION_1, m.getStart().toString());
 			travel.addProperty("end", m.getEnd().toString());
 			travel.addProperty("locationStart", m.getTravelTime().getStartLocation());
 			travel.addProperty("meansOfTransport", m.getTravelTime().getMean().toString());
@@ -156,16 +161,26 @@ public class CalendarController {
 		}
 		
 		for(int i = 0; i < json.length(); i++) {
-			switch(langs[i]) {
-			case "PUBLIC_TRANSPORT":
-				logged.getPreferenceMean().addMean(Mean.PUBLIC_TRANSPORT);
-				
-			case "CAR":
-				logged.getPreferenceMean().addMean(Mean.CAR);
-				
-			case "FOOT":
-				logged.getPreferenceMean().addMean(Mean.FOOT);
+			for (String lang : langs) {
+			    switch (lang) {
+			        case "PUBLIC_TRANSPORT":
+			            logged.getPreferenceMean().addMean(Mean.PUBLIC_TRANSPORT);
+			            break;
+
+			        case "CAR":
+			            logged.getPreferenceMean().addMean(Mean.CAR);
+			            break;
+
+			        case "FOOT":
+			            logged.getPreferenceMean().addMean(Mean.FOOT);
+			            break;
+
+			        default:
+			            // caso default
+			            break;
+			    }
 			}
+
 		}
 	}
 }

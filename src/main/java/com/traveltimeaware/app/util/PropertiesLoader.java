@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import org.springframework.core.io.ClassPathResource;
 
-public abstract class PropertiesLoader {
+public interface PropertiesLoader {
 	public static Properties loadProperties(String resourceFileName) throws IOException {
         Properties configuration = new Properties();
         InputStream inputStream = PropertiesLoader.class
