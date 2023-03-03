@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 @Table(name = "mean")
 public enum Mean {	
     CAR,
-    BIKE,
     FOOT,
     PUBLIC_TRANSPORT;
 	

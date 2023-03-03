@@ -10,6 +10,11 @@ import java.net.URL;
 import com.traveltimeaware.app.util.PropertiesLoader;
 
 public abstract class BingMapsRequest {
+
+	  private BingMapsRequest() {
+	    throw new IllegalStateException("Utility class");
+	  }
+
 	
 	private static String KEY = null;
 	
@@ -39,7 +44,7 @@ public abstract class BingMapsRequest {
 
 		BufferedReader in = new BufferedReader(streamReader);
 		String inputLine;
-		StringBuffer content = new StringBuffer();
+		StringBuilder content = new StringBuilder();
 		while ((inputLine = in.readLine()) != null) {
 			content.append(inputLine);
 		}

@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 public class MapsURL {
-	private final String BASE = "http://dev.virtualearth.net/REST/V1";
+	private static final String BASE = "http://dev.virtualearth.net/REST/V1";
 	private final Map<String, String> params = new HashMap<>();
 	
 	private String path;

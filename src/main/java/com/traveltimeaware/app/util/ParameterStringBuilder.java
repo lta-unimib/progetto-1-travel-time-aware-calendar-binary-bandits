@@ -5,6 +5,10 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 public class ParameterStringBuilder {
+	private ParameterStringBuilder() {
+	    throw new IllegalStateException("Utility class");
+	  }
+
     public static String getParamsString(Map<String, String> params) 
       throws UnsupportedEncodingException{
         StringBuilder result = new StringBuilder();

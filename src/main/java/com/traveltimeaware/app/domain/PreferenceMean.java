@@ -38,13 +38,23 @@ public class PreferenceMean {
 		return preferedMeans;
 	}
 	
+	public boolean contain(Mean mean) {
+		for(Mean m : preferedMeans) {
+			if(m.equals(mean)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public void addMean(Mean m) {
-		if(preferedMeans.add(m) != true)
+		if(!preferedMeans.add(m))
 			throw new IllegalArgumentException("Element already exist");
 	}
 	
 	public void removeMean(Mean m) {
-		if(preferedMeans.remove(m) != true) 
+		if(!preferedMeans.remove(m)) 
 			throw new IllegalArgumentException("Element doesn't exist");
 	}
 }
