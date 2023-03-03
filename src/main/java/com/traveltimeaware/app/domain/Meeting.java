@@ -18,7 +18,8 @@ public class Meeting extends Event {
 	private boolean repetition = false;
 	private String location;
 	
-	@OneToOne(mappedBy = "meeting")
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "travel_id", referencedColumnName = "id")
 	private TravelTime travel;
 	
 	@ManyToOne

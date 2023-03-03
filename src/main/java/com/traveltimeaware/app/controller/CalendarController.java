@@ -45,9 +45,11 @@ public class CalendarController {
 	
 	private Calendar active;
 	private User logged;
+	
 	private static final String ACTION_1 = "start";
 	private static final String ACTION_2 = "title";
 	private static final String ACTION_3 = "yyyy-MM-dd HH:mm";
+	
 	@GetMapping("/")
 	public ModelAndView getHomepage() {		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -119,9 +121,8 @@ public class CalendarController {
 	}
 	
 	@GetMapping(value = "/day/{day}", produces = MediaType.APPLICATION_JSON_VALUE)		//added formatDay to be used by the day.html page to display date
-	public String getMeetingForDay(@PathParam("day") Date date, Model model) {
+	public String getMeetingForDay(@PathParam("day") Date date) {
 		Day d = active.getDay(date);
-		model.addAttribute("formatDay", date);
 		
 		JsonObject json = new JsonObject();
 		for(Meeting m: d.getMeetings()) {
@@ -137,6 +138,8 @@ public class CalendarController {
 			
 			json.add("travel", travel);
 		}
+		
+		System.out.println(json);
 		
 		return json.toString();
 	}

@@ -16,8 +16,7 @@ public class TravelTime extends Event {
 	private Mean mean;
 	private String startLocation;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "meeting_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "travel")
 	private Meeting meeting;
 	
 	public TravelTime(LocalDateTime start, LocalDateTime end, Mean mean, String startLocation) {
