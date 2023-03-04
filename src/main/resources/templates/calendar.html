@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travel Time Aware</title>
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+  crossorigin="anonymous">
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div id ="content">
+  <div class="container px-2 text-center">
+    <div class="card ">
+
+      <div class="card-header">
+        <div id="current-date"></div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col">
+          <i class="bi bi-arrow-left"></i>
+        </div>
+        <div class="col">
+          <i class="bi bi-arrow-right"></i>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col">Sun</div>
+        <div class="col">Mon</div>
+        <div class="col">Tue</div>
+        <div class="col">Wed</div>
+        <div class="col">Thu</div>
+        <div class="col">Fri</div>
+        <div class="col">Sat</div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col" id="calender"></div>
+      </div>
+      <div class="row mb-4">
+	  <div class="col-2">
+	    <form th:action="@{/logout}" method="post">
+	        <button type="submit" class="btn btn-danger">SignOut</button>
+	      </form>
+	    </div>
+	  <div class="col-2">
+	  <form action="/create/meeting">
+	    <button type="submit" class="btn btn-primary px-2">NewMeeting</button>
+	  </form>
+	</div>
+
+    </div>
+  </div>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  
+  <script th:inline="javascript"> 
+    // days with meetings
+    
+  
+    // Get the current date
+    var currentDate = new Date();
+    
+    var days = JSON.parse([[${events}]]);
+
+    // Extract the month and year
+    var currMonth = currentDate.getMonth();
+    var currYear = currentDate.getFullYear();
+
+    var firstDayOfTheMonth = new Date(currYear, currMonth, 1).getDay();
+    var lastDayOfTheMonth = new Date(currYear, currMonth, 0).getDay();
+   // console.log(firstDayOfTheMonth);
+
+    const months = [ "January", "February", "March", "April", "May",
+        "June", "July", "August", "September", "October", "November",
+        "December" ];
+
+    // Update the content of the element
+    document.getElementById("current-date").innerHTML = months[currMonth]
+        + " " + currYear;
+
+    // Get the number of days in the month
+    var daysInMonth = new Date(currYear, currMonth + 1, 0).getDate();
+
+    //renders calendar page
+    function render(daysInMonth) {
+      var firstDayOfTheMonth = new Date(currYear, currMonth, 1).getDay();
+      var lastDayOfLastMonth = new Date(currYear, currMonth, 0).getDate();
+      var lastDayOMonth = new Date(currYear, currMonth, daysInMonth)
+          .getDay();
+
+      // Generate HTML for each day of the month
+      var con = 0;
+      var html = "<div class='row px-2 text-center mb-4'>";
+      //da modificare per firstday of month
+      
+
+
+
+
+      for (var day = firstDayOfTheMonth; day > 0; day--) {
+        con++;
+        currDay=(lastDayOfLastMonth - day + 1);
+        formatMonth = currMonth;
+        if(currMonth<10&&currMonth!=0){formatMonth="0"+(currMonth);
+
+                }
+         if(currMonth==0){formatMonth="12";}
+         formatYear=currYear;
+         if(currMonth==0){formatYear--;}
+         formatDate = (currDay+"-"+formatMonth+"-"+formatYear);       
+        if (((currDay+"-"+formatMonth+"-"+formatYear) in days)&&(days[formatDate]!=0)){
+          
+            html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body' >" + (lastDayOfLastMonth - day + 1)
+              + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
+          if (con % 7 == 0 && day != daysInMonth) {
+            html += "</div><div class = 'row px-2 text-center mb-4'>";
+          }
+        }
+          else{
+            html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + (lastDayOfLastMonth - day + 1)
+              + "</div></div></div>";
+          if (con % 7 == 0 && day != daysInMonth) {
+            html += "</div><div class = 'row px-2 text-center mb-4'>";
+          } 
+        }        
+      }
+
+
+
+      for (var day = 1; day <= daysInMonth; day++) {
+        con++;
+        currDay = day;
+        formatMonth = currMonth+1;
+                  if(day<10){currDay="0"+day}
+                  if(currMonth<9){formatMonth="0"+(currMonth+1);}
+                formatDate = (currDay+"-"+formatMonth+"-"+currYear);
+                  if (((currDay+"-"+formatMonth+"-"+currYear) in days)&&(days[formatDate]!=0)) {
+                        //console.log("currday is in days");                              //test per vedere quelli che sono in days
+                        html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body' >" + day + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
+                          if (con % 7 == 0 && day != daysInMonth) {
+                            html += "</div><div class = 'row px-2 text-center mb-4'>";
+                          }
+                      }
+                  else{
+                      html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + day + "</div></div></div>";
+                      if (con % 7 == 0 && day != daysInMonth) {
+                      html += "</div><div class = 'row px-2 text-center mb-4'>";
+                      }
+                  }
+                  //console.log(formatMonth);
+      }
+
+
+
+
+
+
+//problema con questa funzione
+
+      for (var day = lastDayOMonth; day < 6; day++) {
+        con++;
+        currDay=(day - lastDayOMonth + 1);
+        formatMonth=currMonth+2;
+
+
+        if(formatMonth==13){formatMonth="01";}
+        if(day<10){currDay="0"+currDay}
+        if(currMonth<8){formatMonth="0"+(currMonth+2)}
+        formatYear=currYear;
+         if(formatMonth=="01"){formatYear++;}
+         formatDate = (currDay+"-"+formatMonth+"-"+formatYear);
+        if (((currDay+"-"+formatMonth+"-"+formatYear) in days)&&(days[formatDate]!=0)){
+            html += "<div class = 'col' ><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + (day - lastDayOMonth + 1)
+              + "<span class='badge bg-success badge-pill' style='position: absolute; top: 0; right: 0;'>"+days[formatDate]+"</span></div></div></div>";
+          if (con % 7 == 0 && day != daysInMonth) {
+            html += "</div><div class = 'row px-2 text-center mb-4'>";
+          }
+        }
+        else{
+            html += "<div class = 'col'><div class = 'card clickable' data-info='"+formatDate+"'><div class = 'card-body'>" + (day - lastDayOMonth + 1)
+              + "</div></div></div>";
+          if (con % 7 == 0 && day != daysInMonth) {
+            html += "</div><div class = 'row px-2 text-center mb-4'>";
+          }
+        }
+         //console.log(formatDate);
+      }
+
+
+
+
+
+
+
+
+      //console.log(html);
+      var calenderRow = document.getElementById("calender");
+      // Update the content of the element with the generated HTML
+      calenderRow.innerHTML = html;
+    }
+    
+
+    // Get the number of days in the month
+    var daysInMonth = new Date(currYear, currMonth + 1, 0).getDate();
+
+    render(daysInMonth);
+    function ajaxClickDay(){
+    		var cards = document.querySelectorAll('.card.clickable');
+    	    cards.forEach(function(card) {
+    	      card.addEventListener('click', function() {
+    	        console.log('Card clicked:', card.dataset.info);
+    	        var geturl= "/days/"+card.dataset.info;
+    	        console.log(geturl);
+    	        $.ajax({
+    				url: geturl,
+    				method: "GET",
+    				success: function(response) {
+    					$("#response").text(response);
+    				},
+    				error: function(xhr, status, error) {
+    					console.error(xhr, status, error);
+    				}
+    			});
+    	      });
+    	    });	
+    }
+    ajaxClickDay();
+    
+
+    const arrowLeft = document.querySelector('.bi-arrow-left');
+
+    arrowLeft
+        .addEventListener(
+            'click',
+            function() {
+              currMonth = currMonth - 1;
+              if (currMonth < 0) {
+                date = new Date(currYear, currMonth);
+                currYear = date.getFullYear();
+                currMonth = date.getMonth();
+              }
+              // Get the number of days in the month
+              var daysInMonth = new Date(currYear, currMonth + 1,
+                  0).getDate();
+
+              document.getElementById("current-date").innerHTML = months[currMonth]
+                  + " " + currYear;
+              // Generate HTML for each day of the month
+              render(daysInMonth);
+              ajaxClickDay();
+
+              //console.log(currMonth);
+            });
+
+    const arrowRight = document.querySelector('.bi-arrow-right');
+
+    arrowRight
+        .addEventListener(
+            'click',
+            function() {
+              currMonth = currMonth + 1;
+              if (currMonth > 11) {
+                date = new Date(currYear, currMonth);
+                currYear = date.getFullYear();
+                currMonth = date.getMonth();
+              }
+              // Get the number of days in the month
+              var daysInMonth = new Date(currYear, currMonth + 1,
+                  0).getDate();
+              document.getElementById("current-date").innerHTML = months[currMonth]
+                  + " " + currYear;
+
+              // Generate HTML for each day of the month
+              render(daysInMonth);
+              ajaxClickDay();
+
+            //  console.log(currMonth);
+              //console.log(arrowRight);
+            });
+  
+  </script>
+  
+ </div>
+</body>
+</html>
