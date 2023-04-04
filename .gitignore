@@ -1,9 +1,6 @@
 ### Custom ###
 HELP.md
 application.properties
-database.db
-database
-memory
 
 ### Eclipse ###
 .metadata
