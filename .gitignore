@@ -1,6 +1,6 @@
 ### Custom ###
 HELP.md
-persistence.properties
+application.properties
 database.db
 database
 memory
