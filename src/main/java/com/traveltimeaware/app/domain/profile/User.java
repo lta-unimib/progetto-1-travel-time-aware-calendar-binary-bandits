@@ -2,6 +2,7 @@ package com.traveltimeaware.app.domain.profile;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.traveltimeaware.app.domain.Calendar;
 import com.traveltimeaware.app.domain.Mean;
@@ -27,10 +28,6 @@ public class User {
 	private Long id;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "account_id", referencedColumnName = "id")
-	private Account account;
-	
-	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "calendar_id", referencedColumnName = "id")
 	private Calendar calendar;
 	
@@ -38,22 +35,42 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private List<Mean> preferendMeans;
 	
-	private String name;
-	private String surname;
+	private String email;
+	private String password;
 	
-	public User(String name, String surname) {
-		this.name = name;
-		this.surname = surname;
+	public User() {
+		this("temp@email.tmp", "");
+	}
+	
+	public User (String email, String password) {
+		setEmail(email);
+		setPassword(password);
 		
 		preferendMeans = Arrays.asList(Mean.values());
 	}
 	
-	public String getName() {
-		return name;
+	public void setEmail(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+		
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null || !pat.matcher(email).matches())
+			throw new IllegalArgumentException(emailRegex);
+        
+		this.email = email;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
 	
-	public String getSurname() {
-		return surname;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getPassword() {
+		return password;
 	}
 }

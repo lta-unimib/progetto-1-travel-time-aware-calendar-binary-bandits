@@ -33,8 +33,8 @@ public class Calendar {
 	
 	private static Calendar instance = null;
  	
-	private Calendar (User user) {
-		this.user = user;
+	private Calendar (User account) {
+		this.user = account;
 		events = Collections.synchronizedSortedSet(new TreeSet<Schedule>());
 	}
 	
