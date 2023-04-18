@@ -1,6 +1,6 @@
 ### Custom ###
 HELP.md
-application.properties
+persistence.properties
 
 ### Eclipse ###
 .metadata

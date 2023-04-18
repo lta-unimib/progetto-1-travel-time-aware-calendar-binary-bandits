@@ -49,6 +49,14 @@ public class User {
 		preferendMeans = Arrays.asList(Mean.values());
 	}
 	
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
+	
+	public Calendar getCalendar() {
+		return calendar;
+	}
+	
 	public void setEmail(String email) {
 		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                 "[a-zA-Z0-9_+&*-]+)*@" +

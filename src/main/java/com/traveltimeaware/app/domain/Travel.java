@@ -3,6 +3,8 @@ package com.traveltimeaware.app.domain;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,15 +15,22 @@ import jakarta.persistence.Table;
 @Table(name = "travels")
 public class Travel extends Interval {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
 	@OneToOne(mappedBy = "travel")
     private Schedule schedule;
 	
+	@Enumerated(EnumType.STRING)
+    private Mean mean;
+	
 	public Travel(Date start, Date end) {
 		super(start, end);
+	}
+	
+	public void setMean(Mean mean) {
+		this.mean = mean;
+	}
+	
+	public Mean getMean() {
+		return mean;
 	}
 
 	@Override

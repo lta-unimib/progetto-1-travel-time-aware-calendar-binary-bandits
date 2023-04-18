@@ -16,7 +16,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Singleton
 @Entity
 @Table(name = "calendars")
 public class Calendar {
@@ -33,16 +32,8 @@ public class Calendar {
 	
 	private static Calendar instance = null;
  	
-	private Calendar (User account) {
-		this.user = account;
+	public Calendar () {
 		events = Collections.synchronizedSortedSet(new TreeSet<Schedule>());
-	}
-	
-	public static synchronized Calendar getInstance(User user) {
-		if(instance == null)
-			instance = new Calendar(user);
-		
-		return instance;
 	}
 	
 	public void add(Schedule s) {

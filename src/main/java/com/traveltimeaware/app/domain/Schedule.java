@@ -29,9 +29,20 @@ public class Schedule {
 	@ManyToOne
     @JoinColumn(name = "calendar_id", nullable = false)
 	private Calendar calendar;
-	
-	public Schedule(Event event, Travel travel) {
+
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
+
+	public void setEvent(Event event) {
 		this.event = event;
+	}
+
+	public void setTravel(Travel travel) {
 		this.travel = travel;
 	}
 

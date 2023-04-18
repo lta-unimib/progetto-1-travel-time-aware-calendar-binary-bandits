@@ -3,6 +3,9 @@ package com.traveltimeaware.app.domain;
 import java.util.Date;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,22 +18,19 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "events")
 public class Event extends Interval {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
 	
 	@OneToOne(mappedBy = "event")
     private Schedule schedule;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
-	private Location location;
-	
+	private String location;
 	private String title;
-	private String description;
 	
-	public Event(Date start, Date end, String title, Location location) {
+	@JsonCreator
+	public Event(@JsonProperty("startDate") Date start, 
+				 @JsonProperty("endDate") Date end, 
+				 @JsonProperty("title") String title, 
+				 @JsonProperty("location") String location) {
+		
 		super(start, end);
 		
 		this.title = title;
@@ -44,20 +44,12 @@ public class Event extends Interval {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 	
-	public Location getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(String location) {
 		this.location = location;
 	}
 

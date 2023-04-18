@@ -1,5 +1,7 @@
 package com.traveltimeaware.app.security.config;
 
+import java.io.IOException;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,17 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import com.traveltimeaware.app.security.CustomUserDetailsService;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -62,7 +70,7 @@ public class WebSecurityConfig {
 					    	.usernameParameter("email")
 					        .passwordParameter("password")					        
 					        .loginProcessingUrl("/login-process")
-					        .defaultSuccessUrl("/")		        
+					        .defaultSuccessUrl("/")
 					        .permitAll()
 					    .and()
 					    .logout()

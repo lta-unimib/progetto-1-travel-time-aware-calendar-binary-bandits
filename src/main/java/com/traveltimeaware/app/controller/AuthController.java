@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.traveltimeaware.app.domain.Calendar;
 import com.traveltimeaware.app.domain.profile.User;
 import com.traveltimeaware.app.repository.UserRepository;
 
@@ -22,7 +23,8 @@ public class AuthController {
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	    String encodedPassword = passwordEncoder.encode(user.getPassword());
 	    user.setPassword(encodedPassword);
-	     
+	    user.setCalendar(new Calendar());
+	    
 	    userRepo.save(user);
 	     
 	    return new RedirectView("/login");

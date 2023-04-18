@@ -3,7 +3,17 @@ package com.traveltimeaware.app.domain;
 import java.util.Date;
 import java.util.Objects;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Interval implements Comparable<Interval>{
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	
 	private Date start;
 	private Date end;
@@ -14,6 +24,10 @@ public abstract class Interval implements Comparable<Interval>{
 		
 		this.start = start;
 		this.end = end;
+	}
+	
+	public Long getId() {
+		return id;
 	}
 	
 	public void setStart(Date start) {
