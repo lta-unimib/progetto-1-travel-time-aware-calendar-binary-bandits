@@ -1,13 +1,17 @@
 package com.traveltimeaware.app.controller;
 
 import java.util.*;
+import java.net.URI;
 import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.traveltimeaware.app.domain.Calendar;
 import com.traveltimeaware.app.domain.Event;
@@ -42,8 +46,24 @@ public class CalendarController {
 		return schedules;
 	}
 	
+	@GetMapping(value = "/calendar/event/get/{id}")
+	public ResponseEntity<Schedule> getSchedule(@PathVariable("id") Long id) {
+		Optional<Schedule> schedule = scheduleRepo.findById(id);
+		
+		Schedule found = null;
+		if(scheduleRepo.findById(id).isPresent()) {
+			found = schedule.get();
+		}
+		
+		if(found == null) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(found);
+		}
+	}
+	
 	@PostMapping(value = "/calendar/event/add")
-	public void addEvent(@RequestBody Event event) {
+	public ResponseEntity<Schedule> addEvent(@RequestBody Event event) {
 		Schedule schedule = new Schedule();
 		
 		SecureRandom secureRand = new SecureRandom();
@@ -55,5 +75,12 @@ public class CalendarController {
 		
 		calendar.add(schedule);
 		calendarRepo.save(calendar);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+		          .path("/calendar/event/get/{id}")
+		          .buildAndExpand(schedule.getId())
+		          .toUri();
+		
+		return ResponseEntity.created(uri).body(schedule);
 	}
 }

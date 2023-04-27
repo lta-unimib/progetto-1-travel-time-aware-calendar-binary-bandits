@@ -33,6 +33,10 @@ public class Schedule {
 	public Calendar getCalendar() {
 		return calendar;
 	}
+	
+	public Long getId() {
+		return id;
+	}
 
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
