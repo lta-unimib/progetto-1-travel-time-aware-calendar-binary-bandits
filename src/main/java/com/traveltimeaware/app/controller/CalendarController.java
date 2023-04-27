@@ -51,7 +51,7 @@ public class CalendarController {
 		Optional<Schedule> schedule = scheduleRepo.findById(id);
 		
 		Schedule found = null;
-		if(scheduleRepo.findById(id).isPresent()) {
+		if(schedule.isPresent()) {
 			found = schedule.get();
 		}
 		
