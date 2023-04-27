@@ -54,10 +54,7 @@ public class User {
 	}
 	
 	public void setEmail(String email) {
-		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
+		String emailRegex = "(\\\\.[a-zA-Z0-9][a-zA-Z0-9\\\\-]{0,25})(\\\\.[a-zA-Z0-9][a-zA-Z0-9\\\\-]{0,25})?(\\\\.[a-zA-Z0-9][a-zA-Z0-9\\\\-]{0,25})?(\\\\.[a-zA-Z0-9][a-zA-Z0-9\\\\-]{0,25})?";
 		
 		Pattern pat = Pattern.compile(emailRegex);
 		if (email == null || !pat.matcher(email).matches())

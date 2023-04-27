@@ -1,7 +1,7 @@
 package com.traveltimeaware.app.controller;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +53,8 @@ public class CalendarController {
 	public void addEvent(@RequestBody Event event) {
 		Schedule schedule = new Schedule();
 		
-		Date start = new Date (ThreadLocalRandom.current().nextLong(event.getStart().getTime() - 10, event.getStart().getTime()));
+		SecureRandom secureRand = new SecureRandom();
+		Date start = new Date (secureRand.nextLong(event.getStart().getTime() - 10, event.getStart().getTime()));
 		Travel travel = new Travel(start, event.getStart());
 		
 		schedule.setEvent(event);
