@@ -1,17 +1,12 @@
 package com.traveltimeaware.app.domain.profile;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import com.traveltimeaware.app.domain.Calendar;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
