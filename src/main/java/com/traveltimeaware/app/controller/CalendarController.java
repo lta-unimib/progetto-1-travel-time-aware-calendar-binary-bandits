@@ -41,9 +41,7 @@ public class CalendarController {
 	
 	@GetMapping(value = "/calendar/events")
 	public List<Schedule> getAllCalendarEvent() {
-		List<Schedule> schedules = scheduleRepo.findByCalendar(calendar);
-		
-		return schedules;
+		return scheduleRepo.findByCalendar(calendar);
 	}
 	
 	@GetMapping(value = "/calendar/event/get/{id}")
