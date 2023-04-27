@@ -16,6 +16,7 @@ public abstract class Interval implements Comparable<Interval>{
 	private Long id;
 	
 	private Date start;
+
 	private Date end;
 	
 	public Interval(Date start, Date end) {
@@ -24,6 +25,14 @@ public abstract class Interval implements Comparable<Interval>{
 		
 		this.start = start;
 		this.end = end;
+	}
+	
+	public Date getStart() {
+		return start;
+	}
+	
+	public Date getEnd() {
+		return end;
 	}
 	
 	public Long getId() {

@@ -42,10 +42,6 @@
 									id="title" class="form-control">
 							</div>
 							<div class="mb-3">
-								<label class="form-label">Descrizione</label> <input type="text"
-									id="description" class="form-control">
-							</div>
-							<div class="mb-3">
 								<label class="form-label">Località</label> <input type="text"
 									id="location" class="form-control">
 							</div>
@@ -112,7 +108,7 @@
 				initialView : "dayGridMonth",
 
 				headerToolbar : {
-					left : "prev,next today addEventButton prefMeans",
+					left : "prev,next today addEventButton",
 					center : "title",
 					right : "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
 				},
@@ -125,15 +121,6 @@
 									.getElementById("newEventModal");
 							new bootstrap.Modal(newEventModal).show();
 						}
-					},
-
-					prefMeans : {
-						text : "Prefered means",
-						click : function() {
-							const newPrefMeansmodal = document
-									.getElementById("prefedMeansModal");
-							new bootstrap.Modal(newPrefMeansmodal).show();
-						}
 					}
 				}
 			});
@@ -143,79 +130,66 @@
 			});
 
 			calendar.render();
+		
+			// Get events
+			const xhr = new XMLHttpRequest();
+			xhr.open("GET", "/calendar/events", true);
+
+			xhr.setRequestHeader(header, token);
+			xhr.send();
+			xhr.onload = function(e) {
+				if (this.readyState == XMLHttpRequest.DONE) {
+					var response = JSON.parse(xhr.responseText);
+					if(response.length > 0){
+						for(var i = 0; i < response.length; i++){
+							// Event
+							calendar.addEvent({
+								title: response[i].event.title,
+								start: response[i].event.startDate,
+								end:   response[i].event.endDate,
+							})
+							
+							// Travel
+							calendar.addEvent({
+								title: "Viaggio - " + response[i].event.title,
+								start: response[i].travel.startDate,
+								end:   response[i].travel.endDate,
+							})
+						}
+					}
+				}
+			}
 		});
 
 		var token = document.getElementsByName("_csrf")[0]["content"];
 		var header = document.getElementsByName("_csrf_header")[0]["content"];
 
-		document
-				.getElementById("newEventForm")
-				.addEventListener(
-						"submit",
-						function(e) {
-							const xhr = new XMLHttpRequest();
-							xhr.open("POST", "/calendar/event/add", true);
+		document.getElementById("newEventForm").addEventListener(
+				"submit",
+				function(e) {
+					const xhr = new XMLHttpRequest();
+					xhr.open("POST", "/calendar/event/add", false);
 
-							xhr.setRequestHeader(header, token);
-							xhr.setRequestHeader('Content-Type',
-									'application/json');
+					xhr.setRequestHeader(header, token);
+					xhr.setRequestHeader('Content-Type', 'application/json');
 
-							xhr
-									.send(JSON
-											.stringify({
-												startDate : document
-														.getElementById("startDate").value,
-												endDate : document
-														.getElementById("endDate").value,
-												title : document
-														.getElementById("title").value,
-												description : document
-														.getElementById("description").value,
-												location : document
-														.getElementById("location").value
-											}));
+					xhr.send(JSON.stringify({
+						startDate : document.getElementById("startDate").value,
+						endDate : document.getElementById("endDate").value,
+						title : document.getElementById("title").value,
+						location : document.getElementById("location").value
+					}));
 
-							xhr.onload = function(e) {
-								if (this.readyState == XMLHttpRequest.DONE
-										&& this.status === 201) {
-									var response = JSON.parse(xhr.responseText);
-									console.log(response);
-								}
-							}
+					xhr.onload = function(e) {
+						if (this.readyState == XMLHttpRequest.DONE
+								&& this.status === 201) {
+							var response = JSON.parse(xhr.responseText);
+							console.log(response);
+						}
+					}
 
-							e.preventDefault();
-						});
-
-		document
-				.getElementById("selectMeansForm")
-				.addEventListener(
-						"submit",
-						function(e) {
-							const xhr = new XMLHttpRequest();
-							xhr.open("POST", "/calendar/means/set", true);
-
-							xhr.setRequestHeader(header, token);
-							xhr.setRequestHeader('Content-Type',
-									'application/json');
-
-							xhr
-									.send(JSON
-											.stringify({
-												foot : document.getElementById("foot").checked,
-												public_transport : document.getElementById("publicTransport").checked,
-												car : document.getElementById("car").checked
-											}));
-
-							xhr.onload = function(e) {
-								if (this.readyState == XMLHttpRequest.DONE
-										&& this.status === 201) {
-									var response = JSON.parse(xhr.responseText);
-									console.log(response);
-								}
-							}
-
-							e.preventDefault();
-						});
+					e.preventDefault();
+				});
 	</script>
 </body>
 </html>

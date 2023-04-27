@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-@PropertySource("classpath:persistence.properties")
+//@PropertySource("classpath:persistence.properties")
 public class AppApplication {
 
 	public static void main(String[] args) {

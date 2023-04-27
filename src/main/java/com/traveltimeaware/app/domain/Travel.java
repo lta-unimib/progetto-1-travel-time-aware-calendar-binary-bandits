@@ -18,19 +18,8 @@ public class Travel extends Interval {
 	@OneToOne(mappedBy = "travel")
     private Schedule schedule;
 	
-	@Enumerated(EnumType.STRING)
-    private Mean mean;
-	
 	public Travel(Date start, Date end) {
 		super(start, end);
-	}
-	
-	public void setMean(Mean mean) {
-		this.mean = mean;
-	}
-	
-	public Mean getMean() {
-		return mean;
 	}
 
 	@Override

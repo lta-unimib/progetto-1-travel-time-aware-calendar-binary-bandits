@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.traveltimeaware.app.domain.Calendar;
-import com.traveltimeaware.app.domain.Mean;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,10 +31,7 @@ public class User {
 	@JoinColumn(name = "calendar_id", referencedColumnName = "id")
 	private Calendar calendar;
 	
-	@ElementCollection
-	@Enumerated(EnumType.STRING)
-	private List<Mean> preferendMeans;
-	
+	@Column(unique = true)
 	private String email;
 	private String password;
 	
@@ -46,7 +43,6 @@ public class User {
 		setEmail(email);
 		setPassword(password);
 		
-		preferendMeans = Arrays.asList(Mean.values());
 	}
 	
 	public void setCalendar(Calendar calendar) {

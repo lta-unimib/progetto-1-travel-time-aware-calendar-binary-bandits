@@ -45,6 +45,15 @@ public class Calendar {
 		events.add(s);
 	}
 	
+	private void disjoinedSchedule(Schedule s) {
+		for(Iterator<Schedule> iter = events.iterator(); iter.hasNext();) {
+			Schedule next = iter.next();
+			if(!next.getEvent().isDisjointed(s.getEvent())) {
+				throw new IllegalArgumentException("Not disjointed event");
+			}
+		}
+	}
+	
 	public void remove(Schedule s) {
 		validate(s);
 		
@@ -75,6 +84,10 @@ public class Calendar {
 		}
 		
 		return found;
+	}
+	
+	public User getUser() {
+		return user;
 	}
 	
 	private void validate(Schedule s) {
