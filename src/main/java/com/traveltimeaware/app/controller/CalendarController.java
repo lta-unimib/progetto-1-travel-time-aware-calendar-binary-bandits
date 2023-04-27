@@ -37,14 +37,7 @@ public class CalendarController {
 	
 	@GetMapping(value = "/calendar/events")
 	public List<Schedule> getAllCalendarEvent() {
-		List<Schedule> schedules = new ArrayList<>(); //= scheduleRepo.findByCalendar(calendar);
-		
-		Event event = new Event(new Date(), new Date(), "", "");
-		
-		Schedule schedule = new Schedule();
-		schedule.setEvent(event);
-		
-		schedules.add(schedule);
+		List<Schedule> schedules = scheduleRepo.findByCalendar(calendar);
 		
 		return schedules;
 	}
