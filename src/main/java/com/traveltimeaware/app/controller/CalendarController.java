@@ -119,6 +119,6 @@ public class CalendarController {
 		User user = calendar.getUser();
 		user.setPreferedeMeans(uploaded);
 		
-		userRepo.save(user)
+		userRepo.save(user);
 	}
 }
