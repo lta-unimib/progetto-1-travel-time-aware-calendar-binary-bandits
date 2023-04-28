@@ -6,6 +6,7 @@ import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,7 @@ public class CalendarController {
 		return scheduleRepo.findByCalendar(calendar);
 	}
 	
-	@GetMapping(value = "/calendar/event/get/{id}")
+	@GetMapping(value = "/calendar/event/{id}")
 	public ResponseEntity<Schedule> getSchedule(@PathVariable("id") Long id) {
 		Optional<Schedule> schedule = scheduleRepo.findById(id);
 		
@@ -60,7 +61,21 @@ public class CalendarController {
 		}
 	}
 	
-	@PostMapping(value = "/calendar/event/add")
+	@DeleteMapping(value = "/caledar/event/{id}")
+	public ResponseEntity<Schedule> deleteSchedule(@PathVariable("id") Long id){
+		Optional<Schedule> schedule = scheduleRepo.findById(id);
+		
+		Schedule found = null;
+		if(schedule.isPresent()) {
+			found = schedule.get();
+		}
+		
+		scheduleRepo.delete(found);
+		
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping(value = "/calendar/event/")
 	public ResponseEntity<Schedule> addEvent(@RequestBody Event event) {
 		Schedule schedule = new Schedule();
 		
@@ -75,7 +90,7 @@ public class CalendarController {
 		calendarRepo.save(calendar);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-		          .path("/calendar/event/get/{id}")
+		          .path("/calendar/event/{id}")
 		          .buildAndExpand(schedule.getId())
 		          .toUri();
 		

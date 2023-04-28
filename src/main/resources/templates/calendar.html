@@ -126,7 +126,11 @@
 			});
 
 			calendar.on("dateClick", function(info) {
-				alert("clicked on " + info.dateStr);
+				const xhr = new XMLHttpRequest();
+				xhr.open("DELETE", "/calendar/event/" + info.id, true);
+
+				xhr.setRequestHeader(header, token);
+				xhr.send();
 			});
 
 			calendar.render();
