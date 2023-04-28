@@ -1,16 +1,22 @@
 package com.traveltimeaware.app.domain.profile;
 
+import java.util.Collection;
 import java.util.regex.Pattern;
 
 import com.traveltimeaware.app.domain.Calendar;
+import com.traveltimeaware.app.domain.Mean;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -28,6 +34,13 @@ public class User {
 	
 	@Column(unique = true)
 	private String email;
+	
+	@ElementCollection(targetClass = Mean.class)
+	@JoinTable(name = "means", joinColumns = @JoinColumn(name = "id"))
+	@Column(name = "pref_means", nullable = false)
+	@Enumerated(EnumType.STRING)
+	Collection<Mean> prefMeans;
+	
 	private String password;
 	
 	public User() {
@@ -38,6 +51,14 @@ public class User {
 		setEmail(email);
 		setPassword(password);
 		
+	}
+	
+	public Collection<Mean> getPreferedMeans(){
+		return prefMeans;
+	}
+	
+	public void setPreferedeMeans(Collection<Mean> prefMeans) {
+		this.prefMeans = prefMeans;
 	}
 	
 	public void setCalendar(Calendar calendar) {

@@ -108,7 +108,7 @@
 				initialView : "dayGridMonth",
 
 				headerToolbar : {
-					left : "prev,next today addEventButton",
+					left : "prev,next today addEventButton prefMeans",
 					center : "title",
 					right : "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
 				},
@@ -120,6 +120,15 @@
 							const newEventmodal = document
 									.getElementById("newEventModal");
 							new bootstrap.Modal(newEventModal).show();
+						}
+					},
+
+					prefMeans : {
+						text : "Prefered means",
+						click : function() {
+							const newPrefMeansmodal = document
+									.getElementById("prefedMeansModal");
+							new bootstrap.Modal(newPrefMeansmodal).show();
 						}
 					}
 				}
@@ -134,7 +143,7 @@
 			});
 
 			calendar.render();
-		
+
 			// Get events
 			const xhr = new XMLHttpRequest();
 			xhr.open("GET", "/calendar/events", true);
@@ -144,29 +153,27 @@
 			xhr.onload = function(e) {
 				if (this.readyState == XMLHttpRequest.DONE) {
 					var response = JSON.parse(xhr.responseText);
-					if(response.length > 0){
-						for(var i = 0; i < response.length; i++){
+					if (response.length > 0) {
+						for (var i = 0; i < response.length; i++) {
 							// Event
 							calendar.addEvent({
-								title: response[i].event.title,
-								start: response[i].event.startDate,
-								end:   response[i].event.endDate,
+								title : response[i].event.title,
+								start : response[i].event.startDate,
+								end : response[i].event.endDate,
 							})
-							
+
 							// Travel
 							calendar.addEvent({
-								title: "Viaggio - " + response[i].event.title,
-								start: response[i].travel.startDate,
-								end:   response[i].travel.endDate,
+								title : "Viaggio - " + response[i].event.title,
+								start : response[i].travel.startDate,
+								end : response[i].travel.endDate,
 							})
 						}
 					}
 				}
 			}
 		});
-
-		var token = document.getElementsByName("_csrf")[0]["content"];
-		var header = document.getElementsByName("_csrf_header")[0]["content"];
+		x
 
 		document.getElementById("newEventForm").addEventListener(
 				"submit",
@@ -182,6 +189,33 @@
 						endDate : document.getElementById("endDate").value,
 						title : document.getElementById("title").value,
 						location : document.getElementById("location").value
+					}));
+
+					xhr.onload = function(e) {
+						if (this.readyState == XMLHttpRequest.DONE
+								&& this.status === 201) {
+							var response = JSON.parse(xhr.responseText);
+							console.log(response);
+						}
+					}
+
+					e.preventDefault();
+				});
+
+		document.getElementById("selectMeansForm").addEventListener(
+				"submit",
+				function(e) {
+					const xhr = new XMLHttpRequest();
+					xhr.open("POST", "/calendar/means/set", true);
+
+					xhr.setRequestHeader(header, token);
+					xhr.setRequestHeader('Content-Type', 'application/json');
+
+					xhr.send(JSON.stringify({
+						foot : document.getElementById("foot").checked,
+						public_transport : document
+								.getElementById("publicTransport").checked,
+						car : document.getElementById("car").checked
 					}));
 
 					xhr.onload = function(e) {

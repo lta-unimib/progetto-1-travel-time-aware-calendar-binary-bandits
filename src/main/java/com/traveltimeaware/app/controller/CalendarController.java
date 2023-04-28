@@ -16,14 +16,20 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.traveltimeaware.app.domain.Calendar;
 import com.traveltimeaware.app.domain.Event;
+import com.traveltimeaware.app.domain.Mean;
 import com.traveltimeaware.app.domain.Schedule;
 import com.traveltimeaware.app.domain.Travel;
+import com.traveltimeaware.app.domain.profile.User;
 import com.traveltimeaware.app.repository.CalendarRepository;
 import com.traveltimeaware.app.repository.ScheduleRepository;
+import com.traveltimeaware.app.repository.UserRepository;
 
 @RestController
 public class CalendarController {
-		
+	
+	@Autowired
+	UserRepository userRepo;
+	
 	@Autowired
 	ScheduleRepository scheduleRepo;
 	
@@ -95,5 +101,24 @@ public class CalendarController {
 		          .toUri();
 		
 		return ResponseEntity.created(uri).body(schedule);
+	}
+	
+	@PostMapping(value = "/calendar/means/set")
+	public void setPreferedMeans(@RequestBody Map<String, Boolean> means){
+		List<Mean> uploaded = new ArrayList<>();
+		
+		if (means.get("publicTransport"))
+			uploaded.add(Mean.PUBLIC_TRANPORT);
+		
+		if (means.get("foot"))
+			uploaded.add(Mean.FOOT);
+		
+		if (means.get("car"))
+			uploaded.add(Mean.CAR);
+		
+		User user = calendar.getUser();
+		user.setPreferedeMeans(uploaded);
+		
+		userRepo.save(user)
 	}
 }
