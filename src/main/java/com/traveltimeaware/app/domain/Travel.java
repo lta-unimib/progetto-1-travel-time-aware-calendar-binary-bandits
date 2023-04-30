@@ -2,18 +2,18 @@ package com.traveltimeaware.app.domain;
 
 import java.util.Date;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "travels")
-public class Travel extends Interval {
+@MappedSuperclass
+public abstract class Travel extends Interval {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	
 	@OneToOne(mappedBy = "travel")
     private Schedule schedule;

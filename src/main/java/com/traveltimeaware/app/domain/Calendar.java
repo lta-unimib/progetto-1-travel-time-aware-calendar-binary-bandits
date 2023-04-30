@@ -7,7 +7,6 @@ import java.util.TreeSet;
 
 import com.traveltimeaware.app.domain.profile.User;
 
-import jakarta.ejb.Singleton;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,11 +37,25 @@ public class Calendar {
 	
 	public void add(Schedule s) {
 		validate(s);
+		disjoinedSchedule(s);
 		
 		if(events.contains(s))
 			throw new IllegalArgumentException("Element already exist");
 		
 		events.add(s);
+	}
+	
+	public Event getPrev(Event e) {
+		Event prev = null;
+		for(Iterator<Schedule> iter = events.iterator(); iter.hasNext();) {
+			Event curr = iter.next().getEvent();
+			if(curr.equals(e)) {
+				break;
+			}
+			prev = curr;
+		}
+		
+		return prev;
 	}
 	
 	private void disjoinedSchedule(Schedule s) {

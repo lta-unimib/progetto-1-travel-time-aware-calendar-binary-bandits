@@ -38,7 +38,7 @@ public class User {
 	@ElementCollection(targetClass = Mean.class)
 	@JoinTable(name = "means", joinColumns = @JoinColumn(name = "id"))
 	@Column(name = "pref_means", nullable = false)
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	Collection<Mean> prefMeans;
 	
 	private String password;

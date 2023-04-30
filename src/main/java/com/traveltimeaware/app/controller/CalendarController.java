@@ -20,6 +20,8 @@ import com.traveltimeaware.app.domain.Mean;
 import com.traveltimeaware.app.domain.Schedule;
 import com.traveltimeaware.app.domain.Travel;
 import com.traveltimeaware.app.domain.profile.User;
+import com.traveltimeaware.app.domain.state.EmptyTravel;
+import com.traveltimeaware.app.domain.state.ExistTravel;
 import com.traveltimeaware.app.repository.CalendarRepository;
 import com.traveltimeaware.app.repository.ScheduleRepository;
 import com.traveltimeaware.app.repository.UserRepository;
@@ -85,9 +87,20 @@ public class CalendarController {
 	public ResponseEntity<Schedule> addEvent(@RequestBody Event event) {
 		Schedule schedule = new Schedule();
 		
-		SecureRandom secureRand = new SecureRandom();
-		Date start = new Date (secureRand.nextLong(event.getStart().getTime() - 10, event.getStart().getTime()));
-		Travel travel = new Travel(start, event.getStart());
+		Travel travel = null;
+		Event prev = calendar.getPrev(event);
+		if(prev != null) {
+			List<Mean> pref = new ArrayList<>(calendar.getUser().getPreferedMeans());
+			if(prev.getEnd().getTime() - event.getStart().getTime() <= 1800000 && pref.contains(Mean.FOOT)) { // 30 min
+				travel = new ExistTravel(prev.getEnd(), event.getStart(), Mean.FOOT);
+			} else if (pref.contains(Mean.CAR)) {
+				travel = new ExistTravel(prev.getEnd(), event.getStart(), Mean.CAR);
+			} else if (pref.contains(Mean.PUBLIC_TRANPORT)) {
+				travel = new ExistTravel(prev.getEnd(), event.getStart(), Mean.PUBLIC_TRANPORT);
+			} else {
+				travel = new EmptyTravel(event.getStart(), event.getEnd());
+			}
+		}
 		
 		schedule.setEvent(event);
 		schedule.setTravel(travel);
